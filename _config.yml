@@ -1,3 +1,4 @@
+
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your entire site, values
@@ -82,8 +83,8 @@ analytics:
 author:
   name             : "Shivam Sahni"
   avatar           : "profile.jpg"
-  bio              : 
-  location         : "Delhi"
+  bio              : "Seniour Undergraduate at IIT Gandhinagar"
+  location         : "Delhi, India"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=jX3NaFwAAAAJ&hl=en&oi=ao"
