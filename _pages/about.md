@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am a Senior Undergraduate in Computer Science & Engineering at the Indian Institute of Technology (IIT), Gandhinagar, India. 
+I am a Master's Student in Computer Science at University of California Diego. 
 
 My research interests lie in Machine Learning and Data Science. In particular, I like to design and analyze techniques to mine and model data. I also enjoy Competitive Programming as it arouses my curiosity for finding solutions to logical puzzles. Check out my [codeforces profile](https://codeforces.com/profile/let-me-handle).
 <!-- A data-driven personal website

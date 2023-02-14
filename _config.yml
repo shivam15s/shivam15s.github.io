@@ -83,12 +83,12 @@ analytics:
 author:
   name             : "Shivam Sahni"
   avatar           : "profile.jpg"
-  bio              : "Senior Undergraduate at IIT Gandhinagar"
-  location         : "Delhi, India"
+  bio              : "Master's Stuedent at UCSD"
+  location         : "California, USA"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=jX3NaFwAAAAJ&hl=en&oi=ao"
-  email            : "shivam.sahni@iitgn.ac.in"
+  email            : "ssahni@ucsd.edu"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
