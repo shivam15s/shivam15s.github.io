@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am currently a Software Engineer focused on enhancing the robustness and scalability of AI infrastructure at [LinkedIn](https://www.linkedin.com/)
+I am currently a Software Engineer at [LinkedIn](https://www.linkedin.com/), focused on enhancing the robustness and scalability of LinkedIn's AI infrastructure. 
 
 My academic interests are broadly in optimizing LLM training and inference, and developing data-efficient LLMs.
 
