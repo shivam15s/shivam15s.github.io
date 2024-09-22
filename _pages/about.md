@@ -1,11 +1,13 @@
 ---
 permalink: /
-title: "About me"
+title: "Shivam Sahni"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
+
+Software Engineer, AI Infrastructure at [LinkedIn](https://www.linkedin.com/)
 
 I am a Master's Student in Computer Science at University of California Diego. 
 
