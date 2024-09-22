@@ -15,7 +15,7 @@
   }
 
   a {
-    text-decoration: underline;
+    text-decoration: none;
 
     &:hover {
       text-decoration: underline;
@@ -78,10 +78,6 @@
   .archive__item-teaser {
     box-shadow: 0 0 10px rgba(#000, 0.25);
   }
-
-  .archive__item-title {
-    text-decoration: underline;
-  }
 }
 
 
@@ -95,11 +91,11 @@
   }
 
   @include breakpoint($large) {
-    padding-right: $right-sidebar-width;
+    padding-right: $right-sidebar-width-narrow;
   }
 
   @include breakpoint($x-large) {
-    padding-right: $right-sidebar-width-wide;
+    padding-right: $right-sidebar-width-narrow;
   }
 
   .page__meta {
