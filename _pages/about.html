@@ -32,16 +32,6 @@ redirect_from:
     --sans: "Inter", ui-sans-serif, system-ui, sans-serif;
     --serif: "Instrument Serif", Georgia, serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #121211;
-      --fg: #ecebe7;
-      --fg-2: #a6a39d;
-      --fg-3: #6f6c67;
-      --line: #262523;
-      --accent: #e8825c;
-    }
-  }
   :root[data-theme="dark"] {
     --bg: #121211; --fg: #ecebe7; --fg-2: #a6a39d; --fg-3: #6f6c67; --line: #262523; --accent: #e8825c;
   }
@@ -79,6 +69,38 @@ redirect_from:
 
   .off { color: var(--fg-2); margin: 0; }
 
+  .tl li { display: grid; grid-template-columns: 76px 1fr; gap: 16px; padding: 9px 0; }
+  .tl .when { color: var(--fg-3); font-size: 14px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .tl .what { color: var(--fg-2); }
+  .tl .what b { color: var(--fg); font-weight: 500; }
+
+  .pubs li { padding: 18px 0; border-top: 1px solid var(--line); }
+  .pubs li:last-child { border-bottom: 1px solid var(--line); }
+  .pubs .title { font-weight: 500; }
+  .pubs .au { color: var(--fg-2); font-size: 14.5px; margin-top: 3px; }
+  .pubs .au b { color: var(--fg); font-weight: 500; }
+  .pubs .venue { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--fg); margin-top: 2px; }
+  .pubs .venue .pre { color: var(--fg-3); }
+  .pubs .sum { color: var(--fg-2); font-size: 15px; margin-top: 6px; }
+  .pubs .pl { font-size: 13.5px; color: var(--fg-3); margin-top: 6px; }
+  .pubs .pl a { color: var(--fg-2); }
+  .pubs .pl a:hover { color: var(--accent); }
+  .older { margin-top: 18px; }
+  .older summary { cursor: pointer; color: var(--fg-3); font-size: 14.5px; list-style: none; }
+  .older summary::-webkit-details-marker { display: none; }
+  .older summary::before { content: "+ "; }
+  .older[open] summary::before { content: "− "; }
+  .older summary:hover { color: var(--fg); }
+  .older ul { margin-top: 10px; }
+  .older li { padding: 7px 0; font-size: 15px; color: var(--fg-2); display: grid; grid-template-columns: 1fr auto; gap: 16px; }
+  .older li a { justify-self: start; }
+  .older li .v { color: var(--fg-3); font-family: var(--serif); font-style: italic; font-size: 16px; white-space: nowrap; }
+
+  .copy { background: none; border: 0; padding: 0; font: inherit; color: var(--fg); cursor: pointer; background-image: linear-gradient(var(--line), var(--line)); background-size: 100% 1px; background-position: 0 100%; background-repeat: no-repeat; position: relative; }
+  .copy:hover { color: var(--accent); background-image: linear-gradient(var(--accent), var(--accent)); }
+  .copy .tip { position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translate(-50%, 4px); font-size: 12px; color: var(--bg); background: var(--fg); padding: 2px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; white-space: nowrap; }
+  .copy.done .tip { opacity: 1; transform: translate(-50%, 0); }
+
   .links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
 
   footer { margin-top: 80px; color: var(--fg-3); font-size: 13.5px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -86,7 +108,7 @@ redirect_from:
   footer button:hover { color: var(--fg); }
 
   .fade { animation: fade .8s ease both; }
-  .fade:nth-child(2) { animation-delay: .06s; } .fade:nth-child(3) { animation-delay: .12s; } .fade:nth-child(4) { animation-delay: .18s; }
+  .fade:nth-child(2) { animation-delay: .06s; } .fade:nth-child(3) { animation-delay: .12s; } .fade:nth-child(4) { animation-delay: .18s; } .fade:nth-child(5) { animation-delay: .24s; } .fade:nth-child(6) { animation-delay: .3s; }
   @keyframes fade { from { opacity: 0; transform: translateY(6px); } }
 
   @media (max-width: 520px) {
@@ -95,6 +117,8 @@ redirect_from:
     header img { width: 58px; height: 58px; }
     .list li { grid-template-columns: 1fr; }
     .list .y { grid-row: auto; grid-column: 1; }
+    .tl li { grid-template-columns: 58px 1fr; gap: 12px; }
+    .older li { grid-template-columns: 1fr; gap: 0; }
   }
   /* soccer mode */
   main { transition: opacity .6s ease; }
@@ -126,25 +150,56 @@ redirect_from:
   </header>
 
   <section class="intro fade">
-    <p>I'm an engineer at <a href="https://www.together.ai/" target="_blank" rel="noopener">Together AI</a>, where I work on making AI models respond faster and more cheaply.</p>
-    <p>Before that I was at LinkedIn working on AI infrastructure. I did my master's at UC San Diego and my undergrad at IIT Gandhinagar.</p>
+    <p>I'm a senior ML engineer at <a href="https://www.together.ai/" target="_blank" rel="noopener">Together AI</a>, where I work on making AI models respond faster and more cheaply.</p>
+    <p>I like problems where something is slow and nobody is quite sure why yet.</p>
   </section>
 
   <section class="fade">
-    <h2>Work</h2>
-    <ul class="list">
+    <h2>Path</h2>
+    <ul class="tl">
+      <li><span class="when">now</span><span class="what"><b>Together AI</b>. LLM inference: speculative decoding and fast sampling.</span></li>
+      <li><span class="when">before</span><span class="what"><b>LinkedIn</b>. AI infrastructure, and co-authored Liger Kernel.</span></li>
+      <li><span class="when">2024</span><span class="what"><b>UC San Diego</b>. M.S. in Computer Science.</span></li>
+      <li><span class="when">2022</span><span class="what"><b>IIT Gandhinagar</b>. B.Tech in Computer Science, plus too much competitive programming.</span></li>
+    </ul>
+  </section>
+
+  <section class="fade">
+    <h2>Publications</h2>
+    <ul class="pubs">
       <li>
-        <a class="t" href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener">SonicSampler</a>
-        <span class="y">2026</span>
-        <span class="d">Faster sampling for language models, up to 16× over existing approaches. With Pragaash Ponnusamy, Jue Wang and Tri Dao.</span>
+        <a class="title" href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener">SonicSampler: Unified Tile-Aware Kernels for LLM Sampling and Speculative Verification</a>
+        <div class="au">Pragaash Ponnusamy*, <b>Shivam Sahni*</b>, Jue Wang, Tri Dao</div>
+        <div class="venue">arXiv preprint, 2026</div>
+        <div class="sum">One fused GPU kernel for the whole sampling step, up to 16× faster than existing approaches.</div>
+        <div class="pl"><a href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener">arXiv</a> · * equal contribution</div>
       </li>
       <li>
-        <a class="t" href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">Liger Kernel</a>
-        <span class="y">2024</span>
-        <span class="d">Open-source kernels from LinkedIn that make LLM training about 20% faster with 60% less memory.</span>
+        <a class="title" href="https://openreview.net/forum?id=36SjAIT42G" target="_blank" rel="noopener">Liger Kernel: Efficient Triton Kernels for LLM Training</a>
+        <div class="au">Pin-Lun Hsu, Yun Dai, Vignesh Kothapalli, Qingquan Song, Shao Tang, Siyu Zhu, Steven Shimizu, <b>Shivam Sahni</b>, Haowen Ning, Yanning Chen, Zhipeng Wang</div>
+        <div class="venue">ICML 2025, CODEML Workshop</div>
+        <div class="sum">Open-source kernels that make LLM training about 20% faster with 60% less memory.</div>
+        <div class="pl"><a href="https://openreview.net/forum?id=36SjAIT42G" target="_blank" rel="noopener">OpenReview</a> · <a href="https://arxiv.org/abs/2410.10989" target="_blank" rel="noopener">arXiv</a> · <a href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">code</a></div>
+      </li>
+      <li>
+        <a class="title" href="https://doi.org/10.1609/aaai.v36i11.21467" target="_blank" rel="noopener">Accurate and Scalable Gaussian Processes for Fine-Grained Air Quality Inference</a>
+        <div class="au">Zeel B. Patel, Palak Purohit, Harsh Patel, <b>Shivam Sahni</b>, Nipun Batra</div>
+        <div class="venue">AAAI 2022</div>
+        <div class="sum">Gaussian processes that estimate air quality at fine resolution, accurately and at scale.</div>
+        <div class="pl"><a href="https://doi.org/10.1609/aaai.v36i11.21467" target="_blank" rel="noopener">paper</a></div>
       </li>
     </ul>
-    <p class="note">Older papers are on <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>.</p>
+    <details class="older">
+      <summary>Earlier work</summary>
+      <ul>
+        <li><a href="https://arxiv.org/abs/2308.04982" target="_blank" rel="noopener">Exploring Multilingual Text Data Distillation</a><span class="v">arXiv 2023</span></li>
+        <li><a href="https://doi.org/10.1145/3493700.3493756" target="_blank" rel="noopener">Program Synthesis: Does Feedback Help?</a><span class="v">CODS-COMAD 2022</span></li>
+        <li><a href="https://doi.org/10.1145/3493700.3493762" target="_blank" rel="noopener">Indian Classical Music Synthesis</a><span class="v">CODS-COMAD 2022</span></li>
+        <li><a href="https://arxiv.org/abs/2211.01770" target="_blank" rel="noopener">Exploring Explainability Methods for Graph Neural Networks</a><span class="v">arXiv 2022</span></li>
+        <li><a href="https://arxiv.org/abs/2108.08665" target="_blank" rel="noopener">Trust as a Metric for Resiliency in Signed Social Networks</a><span class="v">arXiv 2021</span></li>
+        <li><a href="https://arxiv.org/abs/2108.08791" target="_blank" rel="noopener">Image Inpainting using Partial Convolution</a><span class="v">arXiv 2021</span></li>
+      </ul>
+    </details>
   </section>
 
   <section class="fade">
@@ -153,7 +208,7 @@ redirect_from:
 
     <h2>Say hi</h2>
     <div class="links">
-      <a href="mailto:shivam15800@gmail.com">Email</a>
+      <button class="copy" id="copy-email" data-email="shivam15800@gmail.com">Email<span class="tip">copied shivam15800@gmail.com</span></button>
       <a href="https://github.com/shivam15s" target="_blank" rel="noopener">GitHub</a>
       <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a>
       <a href="/blog/">Blog</a>
@@ -173,10 +228,17 @@ redirect_from:
   const tick = () => { el.textContent = '· ' + fmt.format(new Date()).toLowerCase(); };
   tick(); setInterval(tick, 30000);
 
+  const cp = document.getElementById('copy-email');
+  cp.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(cp.dataset.email); }
+    catch (e) { location.href = 'mailto:' + cp.dataset.email; return; }
+    cp.classList.add('done'); clearTimeout(cp._t); cp._t = setTimeout(() => cp.classList.remove('done'), 1600);
+  });
+
   const root = document.documentElement;
   try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
   document.getElementById('theme').addEventListener('click', () => {
-    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = root.dataset.theme === 'dark';
     root.dataset.theme = dark ? 'light' : 'dark';
     try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
   });
@@ -466,7 +528,6 @@ redirect_from:
 
   addEventListener('resize', layout);
   new MutationObserver(() => { colors(); draw(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { colors(); draw(); });
   colors(); layout();
   console.log('%cpsst. try wandering around the margins. or ↑↑↓↓←→←→BA.', 'color:#c4532b;font-style:italic');
 })();
