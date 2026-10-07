@@ -1,0 +1,576 @@
+---
+permalink: /
+layout: null
+title: "Shivam Sahni"
+redirect_from:
+  - /about/
+  - /about.html
+---
+{% raw %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shivam Sahni</title>
+<meta name="description" content="Shivam Sahni — ML engineer working on fast LLM inference: sampling kernels, speculative decoding, and serving on Blackwell GPUs.">
+<meta property="og:title" content="Shivam Sahni">
+<meta property="og:description" content="Making LLMs fast — sampling kernels, speculative decoding, GPU inference.">
+<meta property="og:url" content="https://shivam15s.github.io/">
+<meta property="og:image" content="https://shivam15s.github.io/images/profile-sm.jpg">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="/images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0d;
+    --bg-2: #111317;
+    --line: #1f232a;
+    --line-2: #2a2f38;
+    --fg: #e9ecf1;
+    --fg-2: #a3aab6;
+    --fg-3: #6b7280;
+    --accept: #a3ff6b;
+    --reject: #ff5d73;
+    --draft: #7aa2ff;
+    --bonus: #ffcf5a;
+    --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --serif: "Instrument Serif", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: var(--sans); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accept); color: #000; }
+
+  /* faint grid paper + glow */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 70% 0%, #000 0%, transparent 70%);
+    opacity: .55;
+  }
+  .glow {
+    position: fixed; width: 720px; height: 720px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(163,255,107,.10), transparent 60%);
+    top: -300px; right: -200px; pointer-events: none; z-index: 0;
+  }
+  .cursor-glow {
+    position: fixed; width: 420px; height: 420px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(122,162,255,.07), transparent 65%);
+    pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
+    left: -999px; top: -999px; transition: opacity .3s;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    background: rgba(10,11,13,.72); border-bottom: 1px solid transparent;
+    transition: border-color .3s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { font-family: var(--mono); font-size: 14px; color: var(--fg-2); display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accept); box-shadow: 0 0 12px var(--accept); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .links { display: flex; gap: 26px; font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
+  .links a { transition: color .2s; }
+  .links a:hover { color: var(--fg); }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; padding: 84px 0 72px; min-height: min(calc(100vh - 60px), 920px); }
+  .hero > * { min-width: 0; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--fg-3); letter-spacing: .02em; display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+  .eyebrow img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-2); }
+  h1 {
+    font-size: clamp(54px, 8.4vw, 108px); line-height: .92; letter-spacing: -.045em;
+    font-weight: 600; margin: 0 0 30px;
+  }
+  h1 em { font-family: var(--serif); font-weight: 400; font-style: italic; letter-spacing: -.02em; color: var(--accept); }
+  .lede { font-size: 20px; color: var(--fg-2); max-width: 34ch; margin: 0 0 34px; line-height: 1.5; }
+  .lede b { color: var(--fg); font-weight: 500; }
+
+  /* spec-decode terminal */
+  .term {
+    border: 1px solid var(--line-2); border-radius: 12px; background: rgba(17,19,23,.82);
+    font-family: var(--mono); font-size: 13.5px; overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,.8);
+  }
+  .term-bar span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 12px; }
+  .term-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--fg-3); font-size: 12px; }
+  .term-bar .lights { display: flex; gap: 6px; }
+  .term-bar .lights i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); display: block; }
+  .term-body { overflow-wrap: anywhere; padding: 16px 16px 14px; min-height: 168px; line-height: 1.85; color: var(--fg); }
+  .tok { display: inline; border-radius: 4px; padding: 1px 0; transition: background .35s, color .35s; }
+  .tok.fresh { background: rgba(163,255,107,.16); color: var(--accept); }
+  .tok.bonus { background: rgba(255,207,90,.16); color: var(--bonus); }
+  .chip { display: inline-block; padding: 0 5px; margin: 0 2px 0 0; border: 1px dashed var(--draft); color: var(--draft); border-radius: 4px; line-height: 1.5; font-size: 12.5px; transition: all .25s; }
+  .chip.ok { border-style: solid; border-color: var(--accept); color: var(--accept); background: rgba(163,255,107,.08); }
+  .chip.no { border-style: solid; border-color: var(--reject); color: var(--reject); text-decoration: line-through; background: rgba(255,93,115,.08); }
+  .chip.gone { opacity: 0; transform: translateY(-4px); }
+  .caret { display: inline-block; width: 8px; height: 15px; background: var(--fg); vertical-align: -2px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .term-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--fg-3); }
+  .term-foot b { color: var(--fg); font-weight: 500; }
+  .legend { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .replay { margin-left: auto; color: var(--fg-2); cursor: pointer; background: none; border: 0; font: inherit; padding: 0; }
+  .replay:hover { color: var(--accept); }
+
+  /* SM grid */
+  .gpu { border: 1px solid var(--line-2); border-radius: 14px; padding: 18px; background: rgba(17,19,23,.6); }
+  .gpu-head { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--fg-3); margin-bottom: 14px; }
+  .gpu-head b { color: var(--fg); font-weight: 500; }
+  .sms { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; }
+  .sm { aspect-ratio: 1; border-radius: 3px; background: #161a20; border: 1px solid #1d2229; transition: background .5s ease, box-shadow .5s ease, border-color .5s; }
+  .sm.on { transition: background .06s, box-shadow .06s, border-color .06s; }
+  .gpu-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-family: var(--mono); font-size: 12px; color: var(--fg-3); gap: 12px; }
+  .kname { color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; max-width: 120px; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--accept); transition: width .12s linear; }
+
+  /* sections */
+  section { padding: 96px 0; border-top: 1px solid var(--line); }
+  .sec-head { display: grid; grid-template-columns: 220px 1fr; gap: 40px; margin-bottom: 44px; align-items: baseline; }
+  .sec-num { font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
+  .sec-num span { color: var(--accept); }
+  h2 { font-size: clamp(32px, 4.4vw, 48px); letter-spacing: -.035em; font-weight: 600; margin: 0; line-height: 1.05; }
+  h2 em { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--fg-2); }
+  .body { display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
+  .body > .content { max-width: 720px; }
+  .content p { color: var(--fg-2); margin: 0 0 18px; font-size: 18px; }
+  .content p b { color: var(--fg); font-weight: 500; }
+  .content a.inline { color: var(--fg); border-bottom: 1px solid var(--line-2); transition: border-color .2s, color .2s; }
+  .content a.inline:hover { color: var(--accept); border-color: var(--accept); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .tag { font-family: var(--mono); font-size: 12px; color: var(--fg-2); border: 1px solid var(--line-2); padding: 5px 10px; border-radius: 999px; }
+
+  /* papers */
+  .papers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .paper {
+    position: relative; border: 1px solid var(--line-2); border-radius: 14px; padding: 26px;
+    background: var(--bg-2); overflow: hidden; display: flex; flex-direction: column;
+    transition: border-color .3s, transform .3s;
+  }
+  .paper::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 0%), rgba(163,255,107,.08), transparent 45%);
+  }
+  .paper:hover { border-color: #3a414d; transform: translateY(-2px); }
+  .paper:hover::after { opacity: 1; }
+  .paper .meta { font-family: var(--mono); font-size: 12px; color: var(--fg-3); display: flex; justify-content: space-between; margin-bottom: 18px; }
+  .paper h3 { font-size: 24px; letter-spacing: -.02em; margin: 0 0 10px; font-weight: 600; line-height: 1.2; }
+  .paper .authors { font-size: 13.5px; color: var(--fg-3); margin: 0 0 18px; }
+  .paper .authors b { color: var(--fg-2); font-weight: 500; }
+  .paper .desc { color: var(--fg-2); font-size: 15.5px; margin: 0 0 24px; }
+  .stats { display: flex; gap: 28px; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--line); }
+  .stat .n { font-size: 34px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--accept); font-variant-numeric: tabular-nums; }
+  .stat .l { font-family: var(--mono); font-size: 11.5px; color: var(--fg-3); margin-top: 6px; line-height: 1.35; }
+  .plinks { display: flex; gap: 16px; margin-top: 20px; font-family: var(--mono); font-size: 12.5px; }
+  .plinks a { color: var(--fg-2); transition: color .2s; }
+  .plinks a:hover { color: var(--accept); }
+
+  .earlier { margin-top: 44px; }
+  .earlier h4 { font-family: var(--mono); font-size: 12px; color: var(--fg-3); font-weight: 400; margin: 0 0 6px; letter-spacing: .04em; text-transform: uppercase; }
+  .row { display: grid; grid-template-columns: 70px 1fr auto; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: baseline; transition: padding .25s; }
+  .row:hover { padding-left: 10px; }
+  .row:hover .t { color: var(--accept); }
+  .row .y { font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
+  .row .t { font-size: 16.5px; transition: color .2s; }
+  .row .a { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
+
+  /* timeline */
+  .tl { position: relative; }
+  .tl-item { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .tl-item:last-child { border-bottom: 0; }
+  .tl-when { font-family: var(--mono); font-size: 13px; color: var(--fg-3); padding-top: 4px; }
+  .tl-what h3 { font-size: 22px; margin: 0 0 4px; font-weight: 600; letter-spacing: -.02em; }
+  .tl-what h3 .at { color: var(--fg-3); font-weight: 400; }
+  .tl-what p { margin: 6px 0 0; color: var(--fg-2); font-size: 16px; max-width: 640px; }
+  .now-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--accept); border: 1px solid rgba(163,255,107,.35); padding: 2px 8px; border-radius: 999px; margin-left: 10px; vertical-align: 4px; }
+  .now-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accept); animation: pulse 2s infinite; }
+
+  /* off hours */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { border: 1px solid var(--line-2); border-radius: 12px; padding: 22px; background: var(--bg-2); transition: border-color .3s, transform .3s; }
+  .card:hover { border-color: #3a414d; transform: translateY(-2px); }
+  .card .ico { font-family: var(--mono); font-size: 12px; color: var(--fg-3); margin-bottom: 30px; }
+  .card h3 { margin: 0 0 6px; font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+  .card p { margin: 0; color: var(--fg-2); font-size: 14.5px; }
+  .card .cf { color: #aa66ff; }
+
+  /* contact */
+  .contact { padding: 120px 0 64px; border-top: 1px solid var(--line); }
+  .big-mail {
+    display: inline-block; font-size: clamp(30px, 6vw, 72px); letter-spacing: -.04em; font-weight: 600; line-height: 1;
+    background: linear-gradient(90deg, var(--fg) 0%, var(--fg) 50%, var(--accept) 50%, var(--accept) 100%);
+    background-size: 200% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent;
+    transition: background-position .5s cubic-bezier(.7,0,.2,1); word-break: break-all;
+  }
+  .big-mail:hover { background-position: -100% 0; }
+  .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+  .socials a { font-family: var(--mono); font-size: 13px; padding: 10px 16px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--fg-2); transition: all .2s; }
+  .socials a:hover { color: #000; background: var(--accept); border-color: var(--accept); }
+  footer { display: flex; justify-content: space-between; margin-top: 90px; font-family: var(--mono); font-size: 12px; color: var(--fg-3); gap: 16px; flex-wrap: wrap; }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; padding: 48px 0 56px; gap: 36px; }
+    .sec-head, .body, .tl-item { grid-template-columns: 1fr; gap: 10px; }
+    .papers { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: 1fr 1fr; }
+    .links .hide-sm { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .links { gap: 16px; }
+    .cards { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 52px 1fr; }
+    .row .a { display: none; }
+    .stats { gap: 18px; }
+    .stat .n { font-size: 28px; }
+    section { padding: 72px 0; }
+    .term-body { min-height: 196px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rv { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="cursor-glow" id="cglow"></div>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>shivam15s</a>
+    <div class="links">
+      <a href="#work">work</a>
+      <a href="#path" class="hide-sm">path</a>
+      <a href="/blog/">blog</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><img src="/images/profile-sm.jpg" alt="Shivam Sahni">ml engineer · together ai · santa clara</div>
+        <h1>Shivam<br>Sahni<em>.</em></h1>
+        <p class="lede">I make large language models <b>fast</b>, with sampling kernels, speculative decoding and inference on <b>Blackwell GPUs</b>.</p>
+
+        <div class="term" aria-label="Hi, I'm Shivam. I work on LLM inference at Together AI: fused sampling kernels, speculative decoding, and serving big models on B200s. Before that I wrote Triton kernels for LLM training at LinkedIn.">
+          <div class="term-bar">
+            <span class="lights"><i></i><i></i><i></i></span>
+            <span>bio.generate(spec_decode=True, k=4)</span>
+          </div>
+          <div class="term-body" id="out" aria-hidden="true"></div>
+          <div class="term-foot" aria-hidden="true">
+            <span>steps <b id="st-steps">0</b></span>
+            <span>tokens <b id="st-toks">0</b></span>
+            <span>tok/step <b id="st-tps">0.00</b></span>
+            <span class="legend"><i style="background:var(--draft)"></i>draft</span>
+            <span class="legend"><i style="background:var(--accept)"></i>accept</span>
+            <span class="legend"><i style="background:var(--reject)"></i>reject</span>
+            <span class="legend"><i style="background:var(--bonus)"></i>bonus</span>
+            <button class="replay" id="replay">↻ replay</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gpu" aria-hidden="true">
+        <div class="gpu-head"><span><b>B200</b> · 148 SMs</span><span id="occ">idle</span></div>
+        <div class="sms" id="sms"></div>
+        <div class="gpu-foot"><span class="kname" id="kname">waiting for launch…</span><span class="bar"><span id="kbar"></span></span></div>
+      </div>
+    </header>
+  </div>
+
+  <section id="now">
+    <div class="wrap">
+      <div class="sec-head rv"><div class="sec-num"><span>01</span> / now</div><h2>Inference, <em>end to end.</em></h2></div>
+      <div class="body rv">
+        <div></div>
+        <div class="content">
+          <p>I'm a <b>Senior Machine Learning Engineer at <a class="inline" href="https://www.together.ai/" target="_blank" rel="noopener">Together AI</a></b>, where I work on the inference stack that serves frontier open models at scale: <b>speculative decoding</b>, <b>fused sampling and verification kernels</b>, and squeezing throughput out of B200 and GB300 GPUs inside TensorRT-LLM.</p>
+          <p>Before that, at <b>LinkedIn</b>, I worked on AI infrastructure and co-authored <a class="inline" href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">Liger Kernel</a>, a set of Triton kernels that make LLM training faster and lighter on memory.</p>
+          <p>The thread through all of it: <b>find where the GPU is waiting, and stop it from waiting.</b></p>
+          <div class="tags">
+            <span class="tag">speculative decoding</span><span class="tag">triton</span><span class="tag">cuda</span><span class="tag">tensorrt-llm</span><span class="tag">sampling</span><span class="tag">MoE / MLA</span><span class="tag">disaggregated serving</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head rv"><div class="sec-num"><span>02</span> / work</div><h2>Selected <em>papers.</em></h2></div>
+
+      <div class="papers">
+        <article class="paper rv">
+          <div class="meta"><span>2026 · Together AI</span><span>arXiv 2607.20475</span></div>
+          <h3>SonicSampler: Unified Tile-Aware Kernels for LLM Sampling and Speculative Verification</h3>
+          <p class="authors">Pragaash Ponnusamy*, <b>Shivam Sahni*</b>, Jue Wang, Tri Dao</p>
+          <p class="desc">The entire sampling pipeline (penalties, temperature, top-k/p, min-p, grammar masks and speculative verification) fused into one CUDA-Graph-friendly batched kernel, with a hierarchical two-stage top-k that exploits the low entropy of LLM outputs.</p>
+          <div class="stats">
+            <div class="stat"><div class="n" data-count="10">10×</div><div class="l">faster top-k<br>vs baselines</div></div>
+            <div class="stat"><div class="n" data-count="16">16×</div><div class="l">on spec-decode<br>sampling workloads</div></div>
+            <div class="stat"><div class="n">1</div><div class="l">kernel<br>launch</div></div>
+          </div>
+          <div class="plinks"><a href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener">paper ↗</a></div>
+        </article>
+
+        <article class="paper rv">
+          <div class="meta"><span>2024 · LinkedIn</span><span>arXiv 2410.10989</span></div>
+          <h3>Liger Kernel: Efficient Triton Kernels for LLM Training</h3>
+          <p class="authors">Pin-Lun Hsu, Yun Dai, Vignesh Kothapalli, Qingquan Song, Shao Tang, Siyu Zhu, Steven Shimizu, <b>Shivam Sahni</b>, Haowen Ning, Yanning Chen</p>
+          <p class="desc">Open-source Triton kernels for LLM training that use operator fusion and input chunking to make popular models train faster and with far less memory than the HuggingFace baselines.</p>
+          <div class="stats">
+            <div class="stat"><div class="n" data-count="20" data-suffix="%">20%</div><div class="l">more training<br>throughput</div></div>
+            <div class="stat"><div class="n" data-count="60" data-suffix="%">60%</div><div class="l">less GPU<br>memory</div></div>
+          </div>
+          <div class="plinks"><a href="https://arxiv.org/abs/2410.10989" target="_blank" rel="noopener">paper ↗</a><a href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">code ↗</a></div>
+        </article>
+      </div>
+
+      <div class="earlier rv">
+        <h4>Earlier</h4>
+        <a class="row" href="https://arxiv.org/abs/2308.04982" target="_blank" rel="noopener"><span class="y">2023</span><span class="t">Exploring Multilingual Text Data Distillation</span><span class="a">w/ H. Patel</span></a>
+        <a class="row" href="https://arxiv.org/abs/2211.01770" target="_blank" rel="noopener"><span class="y">2022</span><span class="t">Exploring Explainability Methods for Graph Neural Networks</span><span class="a">w/ H. Patel</span></a>
+        <a class="row" href="https://arxiv.org/abs/2108.08665" target="_blank" rel="noopener"><span class="y">2021</span><span class="t">Trust as a Metric for Resiliency in Signed Social Networks</span><span class="a">w/ H. Patel, P. Mujumdar</span></a>
+        <a class="row" href="https://arxiv.org/abs/2108.08791" target="_blank" rel="noopener"><span class="y">2021</span><span class="t">Image Inpainting using Partial Convolution</span><span class="a">w/ H. Patel et al.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="path">
+    <div class="wrap">
+      <div class="sec-head rv"><div class="sec-num"><span>03</span> / path</div><h2>How I <em>got here.</em></h2></div>
+      <div class="tl">
+        <div class="tl-item rv"><div class="tl-when">now</div><div class="tl-what"><h3>Together AI <span class="at">· Senior ML Engineer</span><span class="now-pill">now</span></h3><p>LLM inference: speculative decoding, sampling kernels, and production serving on Blackwell.</p></div></div>
+        <div class="tl-item rv"><div class="tl-when">before</div><div class="tl-what"><h3>LinkedIn <span class="at">· Software Engineer</span></h3><p>Made LinkedIn's AI infrastructure more robust and scalable. Co-authored Liger Kernel.</p></div></div>
+        <div class="tl-item rv"><div class="tl-when">2024</div><div class="tl-what"><h3>UC San Diego <span class="at">· M.S. Computer Science</span></h3><p>Efficient LLM training and inference, and data-efficient language models.</p></div></div>
+        <div class="tl-item rv"><div class="tl-when">2022</div><div class="tl-what"><h3>IIT Gandhinagar <span class="at">· B.Tech Computer Science &amp; Engineering</span></h3><p>Where the competitive programming habit started.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="off">
+    <div class="wrap">
+      <div class="sec-head rv"><div class="sec-num"><span>04</span> / off-hours</div><h2>When the GPUs <em>are busy.</em></h2></div>
+      <div class="cards">
+        <a class="card rv" href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener"><div class="ico">// competitive programming</div><h3 class="cf">Candidate Master</h3><p>On Codeforces (top 5%). Logic puzzles are a good time. ↗</p></a>
+        <div class="card rv"><div class="ico">// pitch</div><h3>Soccer</h3><p>Still the best way to spend a weekend morning.</p></div>
+        <div class="card rv"><div class="ico">// court</div><h3>Badminton</h3><p>Fast reflexes, low latency.</p></div>
+        <div class="card rv"><div class="ico">// wall</div><h3>Climbing</h3><p>The newest hobby. Mostly falling, with some progress.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="sec-num rv" style="margin-bottom:24px"><span>05</span> / say hi</div>
+      <a class="big-mail rv" href="mailto:shivam15800@gmail.com">shivam15800@gmail.com</a>
+      <div class="socials rv">
+        <a href="https://github.com/shivam15s" target="_blank" rel="noopener">github ↗</a>
+        <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">google scholar ↗</a>
+        <a href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener">codeforces ↗</a>
+        <a href="/blog/">blog →</a>
+      </div>
+      <footer><span>© 2026 Shivam Sahni</span><span>built with zero kernel launches</span></footer>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  /* nav border + cursor glow */
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
+  const cg = document.getElementById('cglow');
+  if (!reduce && matchMedia('(pointer: fine)').matches) {
+    addEventListener('pointermove', e => { cg.style.left = e.clientX + 'px'; cg.style.top = e.clientY + 'px'; }, { passive: true });
+  }
+  document.querySelectorAll('.paper').forEach(p => p.addEventListener('pointermove', e => {
+    const r = p.getBoundingClientRect();
+    p.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    p.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+
+  /* reveal + count-up */
+  const countUp = el => {
+    const end = +el.dataset.count, suf = el.dataset.suffix || '×';
+    if (reduce) { el.textContent = end + suf; return; }
+    const t0 = performance.now(), dur = 1100;
+    const step = t => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(end * e) + suf;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    en.target.querySelectorAll('[data-count]').forEach(countUp);
+    io.unobserve(en.target);
+  }), { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ---------- speculative decoding bio ---------- */
+  const TEXT = "Hi, I'm Shivam. I work on LLM inference at Together AI: fused sampling kernels, speculative decoding, and serving big models on B200s. Before that I wrote Triton kernels for LLM training at LinkedIn.";
+  const target = TEXT.match(/\S+\s*/g);
+  const WRONG = ['the', 'a', 'really', 'GPUs', 'tokens', 'very', 'and', 'cats', 'pizza', 'CUDA', 'fast', 'models', 'with', 'many', 'some', 'of', 'to', 'lots', 'the', 'big'];
+  const out = document.getElementById('out');
+  const $steps = document.getElementById('st-steps'), $toks = document.getElementById('st-toks'), $tps = document.getElementById('st-tps');
+  let run = 0;
+
+  async function generate() {
+    const id = ++run;
+    out.innerHTML = '';
+    const caret = document.createElement('span'); caret.className = 'caret';
+    out.appendChild(caret);
+    let pos = 0, steps = 0;
+    const stats = () => { $steps.textContent = steps; $toks.textContent = pos; $tps.textContent = steps ? (pos / steps).toFixed(2) : '0.00'; };
+    stats();
+    if (reduce) {
+      out.insertBefore(document.createTextNode(TEXT), caret);
+      steps = 1; pos = target.length; stats(); return;
+    }
+    await sleep(500);
+    const commit = (word, cls) => {
+      const s = document.createElement('span'); s.className = 'tok ' + cls; s.textContent = word;
+      out.insertBefore(s, caret);
+      setTimeout(() => s.classList.remove('fresh', 'bonus'), 900);
+    };
+    while (pos < target.length) {
+      if (id !== run) return;
+      steps++;
+      // draft proposes k=4 tokens; each one matches the target with p≈0.75
+      const k = Math.min(4, target.length - pos);
+      const drafts = [];
+      let derailed = false;
+      for (let i = 0; i < k; i++) {
+        const truth = target[pos + i].trim();
+        if (!derailed && Math.random() < 0.75) drafts.push({ w: truth, ok: true });
+        else {
+          let w; do { w = WRONG[Math.floor(Math.random() * WRONG.length)]; } while (w === truth);
+          drafts.push({ w, ok: false }); derailed = true;
+        }
+      }
+      const chips = drafts.map(d => {
+        const c = document.createElement('span'); c.className = 'chip'; c.textContent = d.w;
+        out.insertBefore(c, caret); return c;
+      });
+      await sleep(420);
+      // target verifies left to right
+      let accepted = 0;
+      for (let i = 0; i < chips.length; i++) {
+        if (id !== run) return;
+        if (drafts[i].ok) { chips[i].classList.add('ok'); accepted++; await sleep(90); }
+        else { chips[i].classList.add('no'); await sleep(260); break; }
+      }
+      await sleep(160);
+      chips.forEach(c => c.classList.add('gone'));
+      await sleep(180);
+      chips.forEach(c => c.remove());
+      for (let i = 0; i < accepted; i++) commit(target[pos + i], 'fresh');
+      pos += accepted;
+      // bonus token from the target model
+      if (pos < target.length) { commit(target[pos], 'bonus'); pos++; }
+      stats();
+      await sleep(260);
+    }
+  }
+  document.getElementById('replay').addEventListener('click', generate);
+  const termIO = new IntersectionObserver(es => { if (es[0].isIntersecting) { generate(); termIO.disconnect(); } });
+  termIO.observe(out);
+
+  /* ---------- B200 SM grid ---------- */
+  const grid = document.getElementById('sms');
+  const N = 148, COLS = 12;
+  const sms = [];
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div'); d.className = 'sm';
+    d.addEventListener('pointerenter', () => light(d, '#ffffff', 220));
+    grid.appendChild(d); sms.push(d);
+  }
+  function light(el, color, hold) {
+    el.classList.add('on');
+    el.style.background = color + 'cc';
+    el.style.borderColor = color;
+    el.style.boxShadow = `0 0 12px ${color}55`;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => {
+      el.classList.remove('on');
+      el.style.background = ''; el.style.borderColor = ''; el.style.boxShadow = '';
+    }, hold);
+  }
+  const KERNELS = [
+    { name: 'fused_sampling_kernel<topk=128>', color: '#a3ff6b', pattern: 'wave' },
+    { name: 'spec_verify_multistep', color: '#ffcf5a', pattern: 'rows' },
+    { name: 'mla_decode_fp8', color: '#7aa2ff', pattern: 'random' },
+    { name: 'fused_moe_gemm<nvfp4>', color: '#c792ff', pattern: 'diag' },
+    { name: 'rmsnorm_residual_fused', color: '#5ef2e2', pattern: 'wave' },
+    { name: 'allreduce_twoshot', color: '#ff8a65', pattern: 'rows' },
+  ];
+  const occ = document.getElementById('occ'), kname = document.getElementById('kname'), kbar = document.getElementById('kbar');
+  function order(pattern) {
+    const idx = [...Array(N).keys()];
+    if (pattern === 'random') return idx.sort(() => Math.random() - .5);
+    if (pattern === 'diag') return idx.sort((a, b) => (a % COLS + (a / COLS | 0)) - (b % COLS + (b / COLS | 0)));
+    if (pattern === 'rows') return idx;
+    return idx.sort((a, b) => (a % COLS) - (b % COLS) || a - b); // column wave
+  }
+  async function gpuLoop() {
+    if (reduce) { kname.textContent = 'animations off'; return; }
+    let k = 0;
+    await sleep(900);
+    for (;;) {
+      const K = KERNELS[k++ % KERNELS.length];
+      kname.textContent = K.name;
+      const ord = order(K.pattern);
+      const waves = 2 + (Math.random() * 2 | 0);
+      for (let w = 0; w < waves; w++) {
+        for (let i = 0; i < N; i++) {
+          if (i % 6 === 0) { await sleep(14); }
+          light(sms[ord[i]], K.color, 260 + Math.random() * 240);
+          const done = (w * N + i + 1) / (waves * N);
+          kbar.style.width = (done * 100).toFixed(1) + '%';
+          kbar.style.background = K.color;
+          occ.textContent = `${Math.min(N, i + 1)}/${N} CTAs · wave ${w + 1}/${waves}`;
+        }
+        await sleep(160);
+      }
+      occ.textContent = 'sync';
+      await sleep(550);
+    }
+  }
+  gpuLoop();
+})();
+</script>
+</body>
+</html>
+{% endraw %}
