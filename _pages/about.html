@@ -12,391 +12,384 @@ redirect_from:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shivam Sahni</title>
-<meta name="description" content="Shivam Sahni — ML engineer working on fast LLM inference: sampling kernels, speculative decoding, and serving on Blackwell GPUs.">
+<meta name="description" content="Shivam Sahni: engineer at Together AI in San Francisco. I make AI fast, and spend the rest of my time climbing, playing soccer and badminton.">
 <meta property="og:title" content="Shivam Sahni">
-<meta property="og:description" content="Making LLMs fast — sampling kernels, speculative decoding, GPU inference.">
+<meta property="og:description" content="Engineer at Together AI, San Francisco. Making AI fast.">
 <meta property="og:url" content="https://shivam15s.github.io/">
 <meta property="og:image" content="https://shivam15s.github.io/images/profile-sm.jpg">
-<meta name="theme-color" content="#0a0b0d">
+<meta name="theme-color" content="#0b0a0c">
 <link rel="icon" href="/images/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0b0d;
-    --bg-2: #111317;
-    --line: #1f232a;
-    --line-2: #2a2f38;
-    --fg: #e9ecf1;
-    --fg-2: #a3aab6;
-    --fg-3: #6b7280;
-    --accept: #a3ff6b;
-    --reject: #ff5d73;
-    --draft: #7aa2ff;
-    --bonus: #ffcf5a;
+    --bg: #0b0a0c;
+    --card: #151316;
+    --line: rgba(255,255,255,.08);
+    --fg: #f5f1ec;
+    --fg-2: #b5aea8;
+    --fg-3: #7a736e;
+    --sun: #ff6b3d;
+    --pink: #ff4f8b;
+    --violet: #8b5cff;
+    --gold: #ffc861;
     --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-    --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --mono: "Geist Mono", ui-monospace, Menlo, monospace;
     --serif: "Instrument Serif", Georgia, serif;
+    --ease: cubic-bezier(.2,.8,.2,1);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; overflow-x: clip; }
-  body {
-    margin: 0; background: var(--bg); color: var(--fg);
-    font-family: var(--sans); font-size: 17px; line-height: 1.6;
-    -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip; }
   a { color: inherit; text-decoration: none; }
-  ::selection { background: var(--accept); color: #000; }
+  ::selection { background: var(--sun); color: #000; }
+  @media (pointer: fine) { body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; } }
 
-  /* faint grid paper + glow */
-  body::before {
-    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 80% 60% at 70% 0%, #000 0%, transparent 70%);
-    opacity: .55;
-  }
-  .glow {
-    position: fixed; width: 720px; height: 720px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(163,255,107,.10), transparent 60%);
-    top: -300px; right: -200px; pointer-events: none; z-index: 0;
-  }
-  .cursor-glow {
-    position: fixed; width: 420px; height: 420px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(122,162,255,.07), transparent 65%);
-    pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
-    left: -999px; top: -999px; transition: opacity .3s;
-  }
+  /* grain */
+  body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z-index: 200; opacity: .07;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: grain 1s steps(5) infinite; }
+  @keyframes grain { 0%{transform:translate(0,0)} 25%{transform:translate(-3%,2%)} 50%{transform:translate(2%,-3%)} 75%{transform:translate(-2%,-1%)} 100%{transform:translate(0,0)} }
 
-  .wrap { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  /* cursor */
+  .cur, .cur-dot { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 300; border-radius: 50%; mix-blend-mode: difference; display: none; }
+  .cur { width: 38px; height: 38px; margin: -19px 0 0 -19px; background: #fff; transform: scale(.32); transition: transform .35s var(--ease); }
+  .cur.big { transform: scale(1.6); }
+  .cur-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: #fff; }
+  body.has-cursor .cur, body.has-cursor .cur-dot { display: block; }
+
+  .wrap { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
   /* nav */
-  nav {
-    position: sticky; top: 0; z-index: 10;
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    background: rgba(10,11,13,.72); border-bottom: 1px solid transparent;
-    transition: border-color .3s;
-  }
-  nav.scrolled { border-bottom-color: var(--line); }
-  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .brand { font-family: var(--mono); font-size: 14px; color: var(--fg-2); display: flex; align-items: center; gap: 10px; }
-  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accept); box-shadow: 0 0 12px var(--accept); animation: pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse { 50% { opacity: .35; } }
-  .links { display: flex; gap: 26px; font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
-  .links a { transition: color .2s; }
-  .links a:hover { color: var(--fg); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: transform .45s var(--ease); }
+  nav.hide { transform: translateY(-110%); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { font-family: var(--serif); font-size: 28px; font-style: italic; letter-spacing: -.02em; }
+  .logo span { color: var(--sun); }
+  .pill-nav { display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(21,19,22,.6); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .pill-nav a { font-size: 14px; padding: 7px 16px; border-radius: 999px; color: var(--fg-2); transition: background .25s, color .25s; }
+  .pill-nav a:hover { background: var(--fg); color: var(--bg); }
+
+  /* aurora */
+  .aurora { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; will-change: transform; }
+  .b1 { width: 52vw; height: 52vw; left: -12vw; top: -18vw; background: radial-gradient(circle, var(--violet), transparent 65%); animation: drift1 22s ease-in-out infinite alternate; }
+  .b2 { width: 46vw; height: 46vw; right: -10vw; top: 4vw; background: radial-gradient(circle, var(--sun), transparent 65%); animation: drift2 26s ease-in-out infinite alternate; }
+  .b3 { width: 38vw; height: 38vw; left: 30vw; top: 22vw; background: radial-gradient(circle, var(--pink), transparent 65%); animation: drift3 19s ease-in-out infinite alternate; opacity: .4; }
+  @keyframes drift1 { to { transform: translate(14vw, 10vw) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-16vw, 12vw) scale(.9); } }
+  @keyframes drift3 { to { transform: translate(-10vw, -12vw) scale(1.2); } }
+  .aurora::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, var(--bg) 100%); }
 
   /* hero */
-  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; padding: 84px 0 72px; min-height: min(calc(100vh - 60px), 920px); }
-  .hero > * { min-width: 0; }
-  .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--fg-3); letter-spacing: .02em; display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
-  .eyebrow img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-2); }
-  h1 {
-    font-size: clamp(54px, 8.4vw, 108px); line-height: .92; letter-spacing: -.045em;
-    font-weight: 600; margin: 0 0 30px;
-  }
-  h1 em { font-family: var(--serif); font-weight: 400; font-style: italic; letter-spacing: -.02em; color: var(--accept); }
-  .lede { font-size: 20px; color: var(--fg-2); max-width: 34ch; margin: 0 0 34px; line-height: 1.5; }
-  .lede b { color: var(--fg); font-weight: 500; }
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 0 56px; overflow: hidden; }
+  .hello { display: flex; align-items: center; gap: 14px; font-size: 19px; color: var(--fg-2); margin-bottom: 8px; }
+  .wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.6s ease-in-out infinite; }
+  @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(16deg); } 20%,40% { transform: rotate(-8deg); } }
+  .name { font-size: clamp(76px, 15.8vw, 250px); line-height: .8; letter-spacing: -.055em; margin: 0; font-weight: 800; white-space: nowrap; user-select: none; }
+  .name .l { display: inline-block; font-variation-settings: "wght" 800; transition: font-variation-settings .25s; }
+  .name .row2 { padding-left: 9vw; }
+  .name em { font-family: var(--serif); font-weight: 400; color: var(--sun); letter-spacing: -.02em; }
+  .name .mask { display: block; overflow: hidden; padding-bottom: .06em; }
+  .name .mask > span { display: inline-block; transform: translateY(105%); animation: rise 1.1s var(--ease) forwards; }
+  .name .mask.row2 > span { animation-delay: .12s; }
+  @keyframes rise { to { transform: none; } }
+  .hero-foot { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; margin-top: 46px; }
+  .intro { font-size: clamp(20px, 2.1vw, 27px); line-height: 1.35; max-width: 30ch; color: var(--fg-2); margin: 0; letter-spacing: -.01em; }
+  .intro b { color: var(--fg); font-weight: 500; }
+  .intro em { font-family: var(--serif); color: var(--fg); font-size: 1.12em; }
+  .fade-in { opacity: 0; translate: 0 16px; animation: fin 1s var(--ease) .5s forwards; }
+  @keyframes fin { to { opacity: 1; translate: 0 0; } }
+  .photo { position: absolute; right: 7%; top: 15%; width: clamp(170px, 19vw, 280px); aspect-ratio: 4/5; z-index: 3; }
+  .photo .inner { width: 100%; height: 100%; transform: rotate(6deg); transition: transform .6s var(--ease); position: relative; }
+  .photo:hover .inner { transform: rotate(0deg) scale(1.04); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; border-radius: 20px; display: block; box-shadow: 0 40px 80px -20px rgba(0,0,0,.7); border: 4px solid #f5f1ec; }
+  .sticker { position: absolute; left: -34px; bottom: 26px; background: var(--gold); color: #1a1205; font-family: var(--serif); font-style: italic; font-size: 24px; padding: 6px 16px 8px; border-radius: 999px; transform: rotate(-14deg); box-shadow: 0 10px 30px rgba(0,0,0,.4); white-space: nowrap; }
+  .sticker2 { position: absolute; right: -22px; top: -18px; width: 66px; height: 66px; border-radius: 50%; background: var(--sun); color: #1a0800; display: grid; place-items: center; font-size: 30px; box-shadow: 0 10px 30px rgba(0,0,0,.4); animation: spin 14s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .scroll-cta { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; color: var(--fg-2); }
+  .scroll-cta .ring { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 18px; transition: background .3s, color .3s; }
+  .scroll-cta:hover .ring { background: var(--fg); color: var(--bg); }
+  .scroll-cta .ring span { animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(5px); } }
 
-  /* spec-decode terminal */
-  .term {
-    border: 1px solid var(--line-2); border-radius: 12px; background: rgba(17,19,23,.82);
-    font-family: var(--mono); font-size: 13.5px; overflow: hidden;
-    box-shadow: 0 30px 80px -30px rgba(0,0,0,.8);
-  }
-  .term-bar span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 12px; }
-  .term-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--fg-3); font-size: 12px; }
-  .term-bar .lights { display: flex; gap: 6px; }
-  .term-bar .lights i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); display: block; }
-  .term-body { overflow-wrap: anywhere; padding: 16px 16px 14px; min-height: 168px; line-height: 1.85; color: var(--fg); }
-  .tok { display: inline; border-radius: 4px; padding: 1px 0; transition: background .35s, color .35s; }
-  .tok.fresh { background: rgba(163,255,107,.16); color: var(--accept); }
-  .tok.bonus { background: rgba(255,207,90,.16); color: var(--bonus); }
-  .chip { display: inline-block; padding: 0 5px; margin: 0 2px 0 0; border: 1px dashed var(--draft); color: var(--draft); border-radius: 4px; line-height: 1.5; font-size: 12.5px; transition: all .25s; }
-  .chip.ok { border-style: solid; border-color: var(--accept); color: var(--accept); background: rgba(163,255,107,.08); }
-  .chip.no { border-style: solid; border-color: var(--reject); color: var(--reject); text-decoration: line-through; background: rgba(255,93,115,.08); }
-  .chip.gone { opacity: 0; transform: translateY(-4px); }
-  .caret { display: inline-block; width: 8px; height: 15px; background: var(--fg); vertical-align: -2px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-  .term-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--fg-3); }
-  .term-foot b { color: var(--fg); font-weight: 500; }
-  .legend { display: inline-flex; align-items: center; gap: 6px; }
-  .legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
-  .replay { margin-left: auto; color: var(--fg-2); cursor: pointer; background: none; border: 0; font: inherit; padding: 0; }
-  .replay:hover { color: var(--accept); }
+  /* marquee */
+  .marquee { position: relative; z-index: 2; padding: 30px 0; overflow: hidden; border-block: 1px solid var(--line); background: var(--bg); }
+  .marquee.tilt { transform: rotate(-2deg); margin: 40px -2vw; background: var(--sun); color: #160700; border: 0; }
+  .track { display: flex; width: max-content; gap: 46px; align-items: center; animation: marq 32s linear infinite; font-size: clamp(34px, 5vw, 70px); font-weight: 700; letter-spacing: -.04em; white-space: nowrap; line-height: 1; }
+  .track em { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
+  .track .star { font-size: .6em; }
+  .marquee.rev .track { animation-direction: reverse; animation-duration: 40s; }
+  @keyframes marq { to { transform: translateX(-50%); } }
 
-  /* SM grid */
-  .gpu { border: 1px solid var(--line-2); border-radius: 14px; padding: 18px; background: rgba(17,19,23,.6); }
-  .gpu-head { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--fg-3); margin-bottom: 14px; }
-  .gpu-head b { color: var(--fg); font-weight: 500; }
-  .sms { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; }
-  .sm { aspect-ratio: 1; border-radius: 3px; background: #161a20; border: 1px solid #1d2229; transition: background .5s ease, box-shadow .5s ease, border-color .5s; }
-  .sm.on { transition: background .06s, box-shadow .06s, border-color .06s; }
-  .gpu-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-family: var(--mono); font-size: 12px; color: var(--fg-3); gap: 12px; }
-  .kname { color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .bar { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; max-width: 120px; }
-  .bar span { display: block; height: 100%; width: 0; background: var(--accept); transition: width .12s linear; }
+  section { position: relative; z-index: 2; padding: 130px 0; }
+  .label { font-family: var(--mono); font-size: 13px; color: var(--fg-3); display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+  .label::before { content: ""; width: 26px; height: 1px; background: var(--fg-3); }
+  h2 { font-size: clamp(44px, 7vw, 104px); font-weight: 700; letter-spacing: -.05em; line-height: .92; margin: 0 0 60px; }
+  h2 em { font-family: var(--serif); font-weight: 400; color: var(--sun); letter-spacing: -.02em; }
 
-  /* sections */
-  section { padding: 96px 0; border-top: 1px solid var(--line); }
-  .sec-head { display: grid; grid-template-columns: 220px 1fr; gap: 40px; margin-bottom: 44px; align-items: baseline; }
-  .sec-num { font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
-  .sec-num span { color: var(--accept); }
-  h2 { font-size: clamp(32px, 4.4vw, 48px); letter-spacing: -.035em; font-weight: 600; margin: 0; line-height: 1.05; }
-  h2 em { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--fg-2); }
-  .body { display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
-  .body > .content { max-width: 720px; }
-  .content p { color: var(--fg-2); margin: 0 0 18px; font-size: 18px; }
-  .content p b { color: var(--fg); font-weight: 500; }
-  .content a.inline { color: var(--fg); border-bottom: 1px solid var(--line-2); transition: border-color .2s, color .2s; }
-  .content a.inline:hover { color: var(--accept); border-color: var(--accept); }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
-  .tag { font-family: var(--mono); font-size: 12px; color: var(--fg-2); border: 1px solid var(--line-2); padding: 5px 10px; border-radius: 999px; }
+  /* big statement */
+  .statement { font-size: clamp(30px, 4.3vw, 60px); line-height: 1.12; letter-spacing: -.035em; font-weight: 500; max-width: 22ch; margin: 0; }
+  .statement .w { opacity: .14; transition: opacity .4s; }
+  .statement .w.on { opacity: 1; }
+  .statement em { font-family: var(--serif); font-weight: 400; color: var(--sun); }
 
-  /* papers */
-  .papers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .paper {
-    position: relative; border: 1px solid var(--line-2); border-radius: 14px; padding: 26px;
-    background: var(--bg-2); overflow: hidden; display: flex; flex-direction: column;
-    transition: border-color .3s, transform .3s;
-  }
-  .paper::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 0%), rgba(163,255,107,.08), transparent 45%);
-  }
-  .paper:hover { border-color: #3a414d; transform: translateY(-2px); }
-  .paper:hover::after { opacity: 1; }
-  .paper .meta { font-family: var(--mono); font-size: 12px; color: var(--fg-3); display: flex; justify-content: space-between; margin-bottom: 18px; }
-  .paper h3 { font-size: 24px; letter-spacing: -.02em; margin: 0 0 10px; font-weight: 600; line-height: 1.2; }
-  .paper .authors { font-size: 13.5px; color: var(--fg-3); margin: 0 0 18px; }
-  .paper .authors b { color: var(--fg-2); font-weight: 500; }
-  .paper .desc { color: var(--fg-2); font-size: 15.5px; margin: 0 0 24px; }
-  .stats { display: flex; gap: 28px; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--line); }
-  .stat .n { font-size: 34px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--accept); font-variant-numeric: tabular-nums; }
-  .stat .l { font-family: var(--mono); font-size: 11.5px; color: var(--fg-3); margin-top: 6px; line-height: 1.35; }
-  .plinks { display: flex; gap: 16px; margin-top: 20px; font-family: var(--mono); font-size: 12.5px; }
-  .plinks a { color: var(--fg-2); transition: color .2s; }
-  .plinks a:hover { color: var(--accept); }
+  /* bento */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 210px; gap: 16px; }
+  .tile { position: relative; border-radius: 26px; background: var(--card); border: 1px solid var(--line); padding: 26px; overflow: hidden; display: flex; flex-direction: column; transition: transform .5s var(--ease), border-color .3s, opacity 1s var(--ease); }
+  .tile:hover { transform: translateY(-5px) rotate(-.4deg); border-color: rgba(255,255,255,.18); }
+  .tile .k { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
+  .tile h3 { font-size: 30px; letter-spacing: -.035em; line-height: 1.02; margin: auto 0 0; font-weight: 650; }
+  .tile h3 em { font-family: var(--serif); font-weight: 400; }
+  .tile p { color: var(--fg-2); margin: 8px 0 0; font-size: 15px; }
+  .tile .emoji { position: absolute; right: 18px; top: 14px; font-size: 64px; transition: transform .6s var(--ease); }
+  .tile:hover .emoji { transform: rotate(-14deg) scale(1.15); }
+  .t-job { grid-column: span 4; grid-row: span 2; background: linear-gradient(140deg, #2a1440 0%, #5a1d3a 45%, #c3452a 100%); border: 0; }
+  .t-job h3 { font-size: clamp(36px, 4.4vw, 62px); max-width: 13ch; }
+  .t-job p { color: rgba(255,255,255,.8); font-size: 17px; max-width: 46ch; }
+  .t-job .k { color: rgba(255,255,255,.65); }
+  .t-job .rings { position: absolute; right: -50px; top: -50px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); animation: spin 40s linear infinite; }
+  .t-job .rings::before, .t-job .rings::after { content: ""; position: absolute; inset: 34px; border-radius: 50%; border: 1px dashed rgba(255,255,255,.22); }
+  .t-job .rings::after { inset: 80px; background: rgba(255,255,255,.08); border-style: solid; }
+  .t-clock { grid-column: span 2; grid-row: span 2; background: var(--fg); color: var(--bg); border: 0; }
+  .t-clock .k { color: #6f6862; }
+  .clock { margin: auto; width: 150px; height: 150px; border-radius: 50%; border: 2px solid var(--bg); position: relative; flex: none; }
+  .clock i { position: absolute; left: 50%; bottom: 50%; transform-origin: 50% 100%; border-radius: 4px; background: var(--bg); }
+  .clock .h { width: 5px; height: 40px; margin-left: -2.5px; }
+  .clock .m { width: 3px; height: 58px; margin-left: -1.5px; }
+  .clock .s { width: 2px; height: 64px; margin-left: -1px; background: var(--sun); }
+  .clock::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px; border-radius: 50%; background: var(--sun); }
+  .t-clock .time { font-size: 34px; font-weight: 650; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .t-clock p { color: #6f6862; }
+  .t-climb { grid-column: span 2; background: #1c2a1b; }
+  .t-soccer { grid-column: span 2; background: #14202e; }
+  .t-badminton { grid-column: span 2; background: #2c2414; }
+  .t-cf { grid-column: span 3; }
+  .t-cf .rating { color: #b27bff; }
+  .t-path { grid-column: span 3; }
+  .stops { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+  .stop { font-size: 14px; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line); color: var(--fg-2); }
+  .stop b { color: var(--fg); font-weight: 500; }
+  .stop.now { border-color: var(--sun); color: var(--sun); }
+  .stop.now b { color: var(--sun); }
 
-  .earlier { margin-top: 44px; }
-  .earlier h4 { font-family: var(--mono); font-size: 12px; color: var(--fg-3); font-weight: 400; margin: 0 0 6px; letter-spacing: .04em; text-transform: uppercase; }
-  .row { display: grid; grid-template-columns: 70px 1fr auto; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: baseline; transition: padding .25s; }
-  .row:hover { padding-left: 10px; }
-  .row:hover .t { color: var(--accept); }
-  .row .y { font-family: var(--mono); font-size: 13px; color: var(--fg-3); }
-  .row .t { font-size: 16.5px; transition: color .2s; }
-  .row .a { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
-
-  /* timeline */
-  .tl { position: relative; }
-  .tl-item { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 26px 0; border-bottom: 1px solid var(--line); }
-  .tl-item:last-child { border-bottom: 0; }
-  .tl-when { font-family: var(--mono); font-size: 13px; color: var(--fg-3); padding-top: 4px; }
-  .tl-what h3 { font-size: 22px; margin: 0 0 4px; font-weight: 600; letter-spacing: -.02em; }
-  .tl-what h3 .at { color: var(--fg-3); font-weight: 400; }
-  .tl-what p { margin: 6px 0 0; color: var(--fg-2); font-size: 16px; max-width: 640px; }
-  .now-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--accept); border: 1px solid rgba(163,255,107,.35); padding: 2px 8px; border-radius: 999px; margin-left: 10px; vertical-align: 4px; }
-  .now-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accept); animation: pulse 2s infinite; }
-
-  /* off hours */
-  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .card { border: 1px solid var(--line-2); border-radius: 12px; padding: 22px; background: var(--bg-2); transition: border-color .3s, transform .3s; }
-  .card:hover { border-color: #3a414d; transform: translateY(-2px); }
-  .card .ico { font-family: var(--mono); font-size: 12px; color: var(--fg-3); margin-bottom: 30px; }
-  .card h3 { margin: 0 0 6px; font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
-  .card p { margin: 0; color: var(--fg-2); font-size: 14.5px; }
-  .card .cf { color: #aa66ff; }
+  /* work */
+  .work-list { border-top: 1px solid var(--line); }
+  .wrow { position: relative; display: grid; grid-template-columns: 110px 1fr 320px 60px; gap: 30px; align-items: center; padding: 40px 0; border-bottom: 1px solid var(--line); overflow: hidden; isolation: isolate; }
+  .wrow::before { content: ""; position: absolute; inset: 0; background: var(--fg); transform: scaleY(0); transform-origin: bottom; transition: transform .55s var(--ease); z-index: -1; }
+  .wrow:hover::before { transform: scaleY(1); }
+  .wrow:hover { color: var(--bg); }
+  .wrow .yr { font-family: var(--mono); font-size: 14px; color: var(--fg-3); padding-left: 10px; transition: color .3s; }
+  .wrow h3 { font-size: clamp(34px, 4.6vw, 62px); margin: 0; letter-spacing: -.05em; font-weight: 700; line-height: 1; transition: transform .55s var(--ease); }
+  .wrow:hover h3 { transform: translateX(14px); }
+  .wrow .what { color: var(--fg-2); font-size: 16px; transition: color .3s; }
+  .wrow:hover .what, .wrow:hover .yr { color: #57504a; }
+  .wrow .arr { font-size: 30px; transition: transform .55s var(--ease); justify-self: end; padding-right: 10px; }
+  .wrow:hover .arr { transform: rotate(-45deg); }
+  .wrow .big { font-family: var(--serif); font-style: italic; font-size: 1.25em; color: var(--sun); }
+  .more { margin-top: 30px; display: inline-flex; gap: 10px; color: var(--fg-2); font-size: 15px; border-bottom: 1px solid var(--line); padding-bottom: 3px; transition: color .2s, border-color .2s; }
+  .more:hover { color: var(--sun); border-color: var(--sun); }
+  .hover-img { position: fixed; top: 0; left: 0; width: 280px; height: 180px; border-radius: 18px; pointer-events: none; z-index: 150; opacity: 0; transform: translate(-50%, -50%) scale(.6) rotate(-6deg); transition: opacity .3s, transform .45s var(--ease); display: grid; place-items: center; font-size: 46px; font-weight: 800; letter-spacing: -.05em; color: #fff; box-shadow: 0 30px 60px rgba(0,0,0,.4); }
+  .hover-img.show { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-6deg); }
 
   /* contact */
-  .contact { padding: 120px 0 64px; border-top: 1px solid var(--line); }
-  .big-mail {
-    display: inline-block; font-size: clamp(30px, 6vw, 72px); letter-spacing: -.04em; font-weight: 600; line-height: 1;
-    background: linear-gradient(90deg, var(--fg) 0%, var(--fg) 50%, var(--accept) 50%, var(--accept) 100%);
-    background-size: 200% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent;
-    transition: background-position .5s cubic-bezier(.7,0,.2,1); word-break: break-all;
-  }
-  .big-mail:hover { background-position: -100% 0; }
-  .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
-  .socials a { font-family: var(--mono); font-size: 13px; padding: 10px 16px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--fg-2); transition: all .2s; }
-  .socials a:hover { color: #000; background: var(--accept); border-color: var(--accept); }
-  footer { display: flex; justify-content: space-between; margin-top: 90px; font-family: var(--mono); font-size: 12px; color: var(--fg-3); gap: 16px; flex-wrap: wrap; }
+  .contact { padding: 150px 0 50px; overflow: hidden; }
+  .contact h2 { font-size: clamp(70px, 15vw, 240px); line-height: .82; margin-bottom: 50px; }
+  .contact-row { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .magnet { width: 190px; height: 190px; border-radius: 50%; background: var(--sun); color: #1a0800; display: grid; place-items: center; font-size: 19px; font-weight: 600; text-align: center; transition: transform .35s var(--ease), background .3s; flex: none; line-height: 1.25; }
+  .magnet:hover { background: var(--gold); }
+  .magnet span { display: block; transition: transform .35s var(--ease); pointer-events: none; }
+  .mail { font-size: clamp(22px, 3vw, 38px); letter-spacing: -.03em; border-bottom: 2px solid var(--line); padding-bottom: 4px; transition: border-color .3s, color .3s; overflow-wrap: anywhere; }
+  .mail:hover { color: var(--sun); border-color: var(--sun); }
+  .socials { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .socials a { padding: 9px 18px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; color: var(--fg-2); transition: all .25s; }
+  .socials a:hover { background: var(--fg); color: var(--bg); }
+  footer { margin-top: 120px; padding-top: 26px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--fg-3); }
+  footer em { font-family: var(--serif); color: var(--fg-2); font-size: 1.15em; }
 
-  /* reveal */
-  .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
-  .rv.in { opacity: 1; transform: none; }
+  /* reveals */
+  .rv { opacity: 0; translate: 0 40px; transition: opacity 1s var(--ease), translate 1s var(--ease), transform .5s var(--ease), border-color .3s; }
+  .rv.in { opacity: 1; translate: 0 0; }
+  .bento .rv:nth-child(2) { transition-delay: .08s, .08s, 0s, 0s; } .bento .rv:nth-child(3) { transition-delay: .12s, .12s, 0s, 0s; }
+  .bento .rv:nth-child(4) { transition-delay: .16s, .16s, 0s, 0s; } .bento .rv:nth-child(5) { transition-delay: .2s, .2s, 0s, 0s; }
 
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; min-height: 0; padding: 48px 0 56px; gap: 36px; }
-    .sec-head, .body, .tl-item { grid-template-columns: 1fr; gap: 10px; }
-    .papers { grid-template-columns: 1fr; }
-    .cards { grid-template-columns: 1fr 1fr; }
-    .links .hide-sm { display: none; }
+  @media (max-width: 960px) {
+    .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 190px; }
+    .t-job { grid-column: span 2; grid-row: span 2; }
+    .t-clock { grid-column: span 2; grid-row: span 1; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; }
+    .t-clock .clock { width: 120px; height: 120px; margin: 0; grid-column: 2; grid-row: 1 / 3; align-self: center; }
+    .t-clock .clock .h { height: 30px; } .t-clock .clock .m { height: 44px; } .t-clock .clock .s { height: 50px; }
+    .t-clock > div:last-child { align-self: end; }
+    .t-climb, .t-soccer { grid-column: span 1; }
+    .t-badminton, .t-cf, .t-path { grid-column: span 2; }
+    .wrow { grid-template-columns: 1fr 40px; gap: 10px 16px; padding: 30px 0; }
+    .wrow .yr { grid-column: 1 / -1; padding: 0; }
+    .wrow .what { grid-column: 1 / 2; }
+    .wrow .arr { grid-row: 2; grid-column: 2; }
+    .photo { right: 5%; top: 13%; }
+    .hero-foot { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
-    .wrap { padding: 0 16px; }
-    .links { gap: 16px; }
-    .cards { grid-template-columns: 1fr; }
-    .row { grid-template-columns: 52px 1fr; }
-    .row .a { display: none; }
-    .stats { gap: 18px; }
-    .stat .n { font-size: 28px; }
-    section { padding: 72px 0; }
-    .term-body { min-height: 196px; }
+    .wrap { padding: 0 18px; }
+    .pill-nav a { padding: 6px 11px; font-size: 13px; }
+    .pill-nav a.hide-sm { display: none; }
+    .hero { padding-top: 100px; }
+    .photo { position: relative; right: auto; top: auto; width: 160px; margin: 0 0 34px 10px; }
+    .sticker { left: auto; right: -84px; bottom: 30px; font-size: 20px; }
+    .name .row2 { padding-left: 0; }
+    .bento { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .tile { min-height: 180px; }
+    .tile .emoji { font-size: 44px; }
+    .tile h3 { padding-right: 52px; }
+    .t-job h3 { padding-right: 0; }
+    .t-job { min-height: 380px; }
+    .t-climb, .t-soccer, .t-badminton, .t-cf, .t-path, .t-job, .t-clock { grid-column: span 1; grid-row: auto; }
+    .scroll-cta { display: none; }
+    section { padding: 90px 0; }
+    .magnet { width: 150px; height: 150px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .rv { opacity: 1; transform: none; }
+    .rv, .fade-in { opacity: 1; translate: 0 0; }
+    .name .mask > span { transform: none; }
   }
 </style>
 </head>
 <body>
-<div class="glow"></div>
-<div class="cursor-glow" id="cglow"></div>
+<div class="cur" id="cur"></div><div class="cur-dot" id="curdot"></div>
+<div class="hover-img" id="himg"></div>
 
 <nav id="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="dot"></span>shivam15s</a>
-    <div class="links">
+    <a class="logo" href="#top">shivam<span>.</span></a>
+    <div class="pill-nav">
+      <a href="#about" class="hide-sm">about</a>
       <a href="#work">work</a>
-      <a href="#path" class="hide-sm">path</a>
       <a href="/blog/">blog</a>
-      <a href="#contact">contact</a>
+      <a href="#contact">say hi</a>
     </div>
   </div>
 </nav>
 
 <main id="top">
-  <div class="wrap">
-    <header class="hero">
-      <div>
-        <div class="eyebrow"><img src="/images/profile-sm.jpg" alt="Shivam Sahni">ml engineer · together ai · santa clara</div>
-        <h1>Shivam<br>Sahni<em>.</em></h1>
-        <p class="lede">I make large language models <b>fast</b>, with sampling kernels, speculative decoding and inference on <b>Blackwell GPUs</b>.</p>
-
-        <div class="term" aria-label="Hi, I'm Shivam. I work on LLM inference at Together AI: fused sampling kernels, speculative decoding, and serving big models on B200s. Before that I wrote Triton kernels for LLM training at LinkedIn.">
-          <div class="term-bar">
-            <span class="lights"><i></i><i></i><i></i></span>
-            <span>bio.generate(spec_decode=True, k=4)</span>
-          </div>
-          <div class="term-body" id="out" aria-hidden="true"></div>
-          <div class="term-foot" aria-hidden="true">
-            <span>steps <b id="st-steps">0</b></span>
-            <span>tokens <b id="st-toks">0</b></span>
-            <span>tok/step <b id="st-tps">0.00</b></span>
-            <span class="legend"><i style="background:var(--draft)"></i>draft</span>
-            <span class="legend"><i style="background:var(--accept)"></i>accept</span>
-            <span class="legend"><i style="background:var(--reject)"></i>reject</span>
-            <span class="legend"><i style="background:var(--bonus)"></i>bonus</span>
-            <button class="replay" id="replay">↻ replay</button>
-          </div>
+  <header class="hero">
+    <div class="aurora" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+    <div class="wrap" style="width:100%">
+      <div class="photo fade-in">
+        <div class="inner">
+          <img src="/images/profile-hero.jpg" alt="Shivam at the Grand Canyon">
+          <span class="sticker">that's me!</span>
+          <span class="sticker2" aria-hidden="true">✺</span>
         </div>
       </div>
-
-      <div class="gpu" aria-hidden="true">
-        <div class="gpu-head"><span><b>B200</b> · 148 SMs</span><span id="occ">idle</span></div>
-        <div class="sms" id="sms"></div>
-        <div class="gpu-foot"><span class="kname" id="kname">waiting for launch…</span><span class="bar"><span id="kbar"></span></span></div>
+      <div class="hello fade-in"><span class="wave">👋</span> hey there, I'm</div>
+      <h1 class="name" id="name" aria-label="Shivam Sahni">
+        <span class="mask"><span>Shivam</span></span>
+        <span class="mask row2"><span>Sahni<em>.</em></span></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="intro fade-in">An engineer in <b>San Francisco</b> who makes <b>AI fast</b> at <b>Together AI</b>. When I'm not working, I'm <em>climbing, playing soccer or playing badminton.</em></p>
+        <a class="scroll-cta fade-in" href="#intro"><span class="ring"><span>↓</span></span>scroll for more</a>
       </div>
-    </header>
+    </div>
+  </header>
+
+  <div class="marquee tilt" aria-hidden="true">
+    <div class="track">
+      <span>engineer</span><span class="star">✺</span><em>climber</em><span class="star">✺</span><span>soccer</span><span class="star">✺</span><em>badminton</em><span class="star">✺</span><span>puzzle solver</span><span class="star">✺</span><em>san francisco</em><span class="star">✺</span>
+      <span>engineer</span><span class="star">✺</span><em>climber</em><span class="star">✺</span><span>soccer</span><span class="star">✺</span><em>badminton</em><span class="star">✺</span><span>puzzle solver</span><span class="star">✺</span><em>san francisco</em><span class="star">✺</span>
+    </div>
   </div>
 
-  <section id="now">
+  <section id="intro">
     <div class="wrap">
-      <div class="sec-head rv"><div class="sec-num"><span>01</span> / now</div><h2>Inference, <em>end to end.</em></h2></div>
-      <div class="body rv">
-        <div></div>
-        <div class="content">
-          <p>I'm a <b>Senior Machine Learning Engineer at <a class="inline" href="https://www.together.ai/" target="_blank" rel="noopener">Together AI</a></b>, where I work on the inference stack that serves frontier open models at scale: <b>speculative decoding</b>, <b>fused sampling and verification kernels</b>, and squeezing throughput out of B200 and GB300 GPUs inside TensorRT-LLM.</p>
-          <p>Before that, at <b>LinkedIn</b>, I worked on AI infrastructure and co-authored <a class="inline" href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">Liger Kernel</a>, a set of Triton kernels that make LLM training faster and lighter on memory.</p>
-          <p>The thread through all of it: <b>find where the GPU is waiting, and stop it from waiting.</b></p>
-          <div class="tags">
-            <span class="tag">speculative decoding</span><span class="tag">triton</span><span class="tag">cuda</span><span class="tag">tensorrt-llm</span><span class="tag">sampling</span><span class="tag">MoE / MLA</span><span class="tag">disaggregated serving</span>
+      <div class="label rv">the short version</div>
+      <p class="statement" id="statement">I like making slow things fast, whether that's an AI model, a <em>route on the wall</em> or a counterattack. These days I build the engine at <em>Together AI</em> that keeps AI answers coming back quickly.</p>
+    </div>
+  </section>
+
+  <section id="about" style="padding-top:40px">
+    <div class="wrap">
+      <div class="label rv">about me</div>
+      <h2 class="rv">A little bit <em>of everything.</em></h2>
+      <div class="bento">
+        <a class="tile t-job rv" href="https://www.together.ai/" target="_blank" rel="noopener">
+          <span class="rings" aria-hidden="true"></span>
+          <span class="k">day job</span>
+          <h3>Senior ML Engineer at <em>Together AI.</em></h3>
+          <p>I work on making AI models respond faster and cheaper at huge scale. Before that, I built AI infrastructure at LinkedIn.</p>
+        </a>
+        <div class="tile t-clock rv">
+          <span class="k">right now in sf</span>
+          <div class="clock" aria-hidden="true"><i class="h" id="ch"></i><i class="m" id="cm"></i><i class="s" id="cs"></i></div>
+          <div><div class="time" id="sftime">--:--</div><p id="sfmood">probably working</p></div>
+        </div>
+        <div class="tile t-climb rv"><span class="emoji">🧗</span><span class="k">newest obsession</span><h3>Climbing</h3><p>Mostly falling, with some progress.</p></div>
+        <div class="tile t-soccer rv"><span class="emoji">⚽</span><span class="k">forever</span><h3>Soccer</h3><p>Best way to spend a weekend morning.</p></div>
+        <div class="tile t-badminton rv"><span class="emoji">🏸</span><span class="k">quick hands</span><h3>Badminton</h3><p>Fast reflexes, lots of smashes.</p></div>
+        <a class="tile t-cf rv" href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener"><span class="emoji">🧩</span><span class="k">puzzles</span><h3><span class="rating">Candidate Master</span> on Codeforces</h3><p>Top 5% in competitive programming. I still can't resist a good puzzle. ↗</p></a>
+        <div class="tile t-path rv"><span class="emoji">🗺️</span><span class="k">the path so far</span>
+          <div class="stops">
+            <span class="stop"><b>IIT Gandhinagar</b> · '22</span>
+            <span class="stop"><b>UC San Diego</b> · MS '24</span>
+            <span class="stop"><b>LinkedIn</b></span>
+            <span class="stop now"><b>Together AI</b> · now</span>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="marquee rev" aria-hidden="true">
+    <div class="track" style="color:var(--fg-3)">
+      <span>things I've made</span><span class="star" style="color:var(--sun)">✺</span><em style="color:var(--fg)">things I've made</em><span class="star" style="color:var(--sun)">✺</span>
+      <span>things I've made</span><span class="star" style="color:var(--sun)">✺</span><em style="color:var(--fg)">things I've made</em><span class="star" style="color:var(--sun)">✺</span>
+      <span>things I've made</span><span class="star" style="color:var(--sun)">✺</span><em style="color:var(--fg)">things I've made</em><span class="star" style="color:var(--sun)">✺</span>
+      <span>things I've made</span><span class="star" style="color:var(--sun)">✺</span><em style="color:var(--fg)">things I've made</em><span class="star" style="color:var(--sun)">✺</span>
+    </div>
+  </div>
 
   <section id="work">
     <div class="wrap">
-      <div class="sec-head rv"><div class="sec-num"><span>02</span> / work</div><h2>Selected <em>papers.</em></h2></div>
-
-      <div class="papers">
-        <article class="paper rv">
-          <div class="meta"><span>2026 · Together AI</span><span>arXiv 2607.20475</span></div>
-          <h3>SonicSampler: Unified Tile-Aware Kernels for LLM Sampling and Speculative Verification</h3>
-          <p class="authors">Pragaash Ponnusamy*, <b>Shivam Sahni*</b>, Jue Wang, Tri Dao</p>
-          <p class="desc">The entire sampling pipeline (penalties, temperature, top-k/p, min-p, grammar masks and speculative verification) fused into one CUDA-Graph-friendly batched kernel, with a hierarchical two-stage top-k that exploits the low entropy of LLM outputs.</p>
-          <div class="stats">
-            <div class="stat"><div class="n" data-count="10">10×</div><div class="l">faster top-k<br>vs baselines</div></div>
-            <div class="stat"><div class="n" data-count="16">16×</div><div class="l">on spec-decode<br>sampling workloads</div></div>
-            <div class="stat"><div class="n">1</div><div class="l">kernel<br>launch</div></div>
-          </div>
-          <div class="plinks"><a href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener">paper ↗</a></div>
-        </article>
-
-        <article class="paper rv">
-          <div class="meta"><span>2024 · LinkedIn</span><span>arXiv 2410.10989</span></div>
-          <h3>Liger Kernel: Efficient Triton Kernels for LLM Training</h3>
-          <p class="authors">Pin-Lun Hsu, Yun Dai, Vignesh Kothapalli, Qingquan Song, Shao Tang, Siyu Zhu, Steven Shimizu, <b>Shivam Sahni</b>, Haowen Ning, Yanning Chen</p>
-          <p class="desc">Open-source Triton kernels for LLM training that use operator fusion and input chunking to make popular models train faster and with far less memory than the HuggingFace baselines.</p>
-          <div class="stats">
-            <div class="stat"><div class="n" data-count="20" data-suffix="%">20%</div><div class="l">more training<br>throughput</div></div>
-            <div class="stat"><div class="n" data-count="60" data-suffix="%">60%</div><div class="l">less GPU<br>memory</div></div>
-          </div>
-          <div class="plinks"><a href="https://arxiv.org/abs/2410.10989" target="_blank" rel="noopener">paper ↗</a><a href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener">code ↗</a></div>
-        </article>
+      <div class="label rv">selected work</div>
+      <h2 class="rv">Stuff I've <em>built.</em></h2>
+      <div class="work-list">
+        <a class="wrow rv" href="https://arxiv.org/abs/2607.20475" target="_blank" rel="noopener" data-c1="#ff6b3d" data-c2="#8b5cff" data-t="16× faster">
+          <span class="yr">2026</span>
+          <h3>SonicSampler</h3>
+          <span class="what">Made the step where AI models pick their next word up to <span class="big">16× faster.</span> Co-first author, with Tri Dao.</span>
+          <span class="arr">→</span>
+        </a>
+        <a class="wrow rv" href="https://github.com/linkedin/Liger-Kernel" target="_blank" rel="noopener" data-c1="#3d7bff" data-c2="#ff4f8b" data-t="60% lighter">
+          <span class="yr">2024</span>
+          <h3>Liger Kernel</h3>
+          <span class="what">Open-source project from LinkedIn that trains AI models <span class="big">20% faster</span> with 60% less memory.</span>
+          <span class="arr">→</span>
+        </a>
       </div>
-
-      <div class="earlier rv">
-        <h4>Earlier</h4>
-        <a class="row" href="https://arxiv.org/abs/2308.04982" target="_blank" rel="noopener"><span class="y">2023</span><span class="t">Exploring Multilingual Text Data Distillation</span><span class="a">w/ H. Patel</span></a>
-        <a class="row" href="https://arxiv.org/abs/2211.01770" target="_blank" rel="noopener"><span class="y">2022</span><span class="t">Exploring Explainability Methods for Graph Neural Networks</span><span class="a">w/ H. Patel</span></a>
-        <a class="row" href="https://arxiv.org/abs/2108.08665" target="_blank" rel="noopener"><span class="y">2021</span><span class="t">Trust as a Metric for Resiliency in Signed Social Networks</span><span class="a">w/ H. Patel, P. Mujumdar</span></a>
-        <a class="row" href="https://arxiv.org/abs/2108.08791" target="_blank" rel="noopener"><span class="y">2021</span><span class="t">Image Inpainting using Partial Convolution</span><span class="a">w/ H. Patel et al.</span></a>
-      </div>
-    </div>
-  </section>
-
-  <section id="path">
-    <div class="wrap">
-      <div class="sec-head rv"><div class="sec-num"><span>03</span> / path</div><h2>How I <em>got here.</em></h2></div>
-      <div class="tl">
-        <div class="tl-item rv"><div class="tl-when">now</div><div class="tl-what"><h3>Together AI <span class="at">· Senior ML Engineer</span><span class="now-pill">now</span></h3><p>LLM inference: speculative decoding, sampling kernels, and production serving on Blackwell.</p></div></div>
-        <div class="tl-item rv"><div class="tl-when">before</div><div class="tl-what"><h3>LinkedIn <span class="at">· Software Engineer</span></h3><p>Made LinkedIn's AI infrastructure more robust and scalable. Co-authored Liger Kernel.</p></div></div>
-        <div class="tl-item rv"><div class="tl-when">2024</div><div class="tl-what"><h3>UC San Diego <span class="at">· M.S. Computer Science</span></h3><p>Efficient LLM training and inference, and data-efficient language models.</p></div></div>
-        <div class="tl-item rv"><div class="tl-when">2022</div><div class="tl-what"><h3>IIT Gandhinagar <span class="at">· B.Tech Computer Science &amp; Engineering</span></h3><p>Where the competitive programming habit started.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="off">
-    <div class="wrap">
-      <div class="sec-head rv"><div class="sec-num"><span>04</span> / off-hours</div><h2>When the GPUs <em>are busy.</em></h2></div>
-      <div class="cards">
-        <a class="card rv" href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener"><div class="ico">// competitive programming</div><h3 class="cf">Candidate Master</h3><p>On Codeforces (top 5%). Logic puzzles are a good time. ↗</p></a>
-        <div class="card rv"><div class="ico">// pitch</div><h3>Soccer</h3><p>Still the best way to spend a weekend morning.</p></div>
-        <div class="card rv"><div class="ico">// court</div><h3>Badminton</h3><p>Fast reflexes, low latency.</p></div>
-        <div class="card rv"><div class="ico">// wall</div><h3>Climbing</h3><p>The newest hobby. Mostly falling, with some progress.</p></div>
-      </div>
+      <a class="more rv" href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">+ more papers on Google Scholar ↗</a>
     </div>
   </section>
 
   <section class="contact" id="contact">
+    <div class="aurora" aria-hidden="true" style="transform:rotate(180deg);opacity:.6"><div class="blob b1"></div><div class="blob b2"></div></div>
     <div class="wrap">
-      <div class="sec-num rv" style="margin-bottom:24px"><span>05</span> / say hi</div>
-      <a class="big-mail rv" href="mailto:shivam15800@gmail.com">shivam15800@gmail.com</a>
-      <div class="socials rv">
-        <a href="https://github.com/shivam15s" target="_blank" rel="noopener">github ↗</a>
-        <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">google scholar ↗</a>
-        <a href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener">codeforces ↗</a>
-        <a href="/blog/">blog →</a>
+      <div class="label rv">say hi</div>
+      <h2 class="rv">Let's <em>talk.</em></h2>
+      <div class="contact-row rv">
+        <a class="magnet" id="magnet" href="mailto:shivam15800@gmail.com"><span>drop me<br>a line ↗</span></a>
+        <div>
+          <a class="mail" href="mailto:shivam15800@gmail.com">shivam15800@gmail.com</a>
+          <div class="socials">
+            <a href="https://github.com/shivam15s" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a>
+            <a href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener">Codeforces</a>
+            <a href="/blog/">Blog</a>
+          </div>
+        </div>
       </div>
-      <footer><span>© 2026 Shivam Sahni</span><span>built with zero kernel launches</span></footer>
+      <footer><span>© 2026 Shivam Sahni</span><span>made with <em>love</em> in san francisco</span></footer>
     </div>
   </section>
 </main>
@@ -404,171 +397,121 @@ redirect_from:
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const fine = matchMedia('(pointer: fine)').matches;
+  const $ = id => document.getElementById(id);
 
-  /* nav border + cursor glow */
-  const nav = document.getElementById('nav');
-  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
-  const cg = document.getElementById('cglow');
-  if (!reduce && matchMedia('(pointer: fine)').matches) {
-    addEventListener('pointermove', e => { cg.style.left = e.clientX + 'px'; cg.style.top = e.clientY + 'px'; }, { passive: true });
-  }
-  document.querySelectorAll('.paper').forEach(p => p.addEventListener('pointermove', e => {
-    const r = p.getBoundingClientRect();
-    p.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-    p.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  }));
+  /* nav hides on scroll down, returns on scroll up */
+  let lastY = 0;
+  addEventListener('scroll', () => { const y = scrollY; $('nav').classList.toggle('hide', y > 200 && y > lastY); lastY = y; }, { passive: true });
 
-  /* reveal + count-up */
-  const countUp = el => {
-    const end = +el.dataset.count, suf = el.dataset.suffix || '×';
-    if (reduce) { el.textContent = end + suf; return; }
-    const t0 = performance.now(), dur = 1100;
-    const step = t => {
-      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-      el.textContent = Math.round(end * e) + suf;
-      if (k < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    en.target.classList.add('in');
-    en.target.querySelectorAll('[data-count]').forEach(countUp);
-    io.unobserve(en.target);
-  }), { threshold: .12 });
+  /* reveals */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* ---------- speculative decoding bio ---------- */
-  const TEXT = "Hi, I'm Shivam. I work on LLM inference at Together AI: fused sampling kernels, speculative decoding, and serving big models on B200s. Before that I wrote Triton kernels for LLM training at LinkedIn.";
-  const target = TEXT.match(/\S+\s*/g);
-  const WRONG = ['the', 'a', 'really', 'GPUs', 'tokens', 'very', 'and', 'cats', 'pizza', 'CUDA', 'fast', 'models', 'with', 'many', 'some', 'of', 'to', 'lots', 'the', 'big'];
-  const out = document.getElementById('out');
-  const $steps = document.getElementById('st-steps'), $toks = document.getElementById('st-toks'), $tps = document.getElementById('st-tps');
-  let run = 0;
+  /* statement: words light up as you scroll */
+  const st = $('statement');
+  (function split(node) {
+    [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(w => {
+          if (!w) return;
+          if (/^\s+$/.test(w)) frag.appendChild(document.createTextNode(w));
+          else { const s = document.createElement('span'); s.className = 'w'; s.textContent = w; frag.appendChild(s); }
+        });
+        node.replaceChild(frag, n);
+      } else if (n.nodeType === 1) split(n);
+    });
+  })(st);
+  const words = [...st.querySelectorAll('.w')];
+  const lightWords = () => {
+    const r = st.getBoundingClientRect();
+    const k = reduce ? 1 : Math.min(1, Math.max(0, (innerHeight * .85 - r.top) / (r.height + innerHeight * .3)));
+    const n = Math.round(k * words.length);
+    words.forEach((w, i) => w.classList.toggle('on', i < n));
+  };
+  addEventListener('scroll', lightWords, { passive: true }); lightWords();
 
-  async function generate() {
-    const id = ++run;
-    out.innerHTML = '';
-    const caret = document.createElement('span'); caret.className = 'caret';
-    out.appendChild(caret);
-    let pos = 0, steps = 0;
-    const stats = () => { $steps.textContent = steps; $toks.textContent = pos; $tps.textContent = steps ? (pos / steps).toFixed(2) : '0.00'; };
-    stats();
-    if (reduce) {
-      out.insertBefore(document.createTextNode(TEXT), caret);
-      steps = 1; pos = target.length; stats(); return;
-    }
-    await sleep(500);
-    const commit = (word, cls) => {
-      const s = document.createElement('span'); s.className = 'tok ' + cls; s.textContent = word;
-      out.insertBefore(s, caret);
-      setTimeout(() => s.classList.remove('fresh', 'bonus'), 900);
-    };
-    while (pos < target.length) {
-      if (id !== run) return;
-      steps++;
-      // draft proposes k=4 tokens; each one matches the target with p≈0.75
-      const k = Math.min(4, target.length - pos);
-      const drafts = [];
-      let derailed = false;
-      for (let i = 0; i < k; i++) {
-        const truth = target[pos + i].trim();
-        if (!derailed && Math.random() < 0.75) drafts.push({ w: truth, ok: true });
-        else {
-          let w; do { w = WRONG[Math.floor(Math.random() * WRONG.length)]; } while (w === truth);
-          drafts.push({ w, ok: false }); derailed = true;
-        }
-      }
-      const chips = drafts.map(d => {
-        const c = document.createElement('span'); c.className = 'chip'; c.textContent = d.w;
-        out.insertBefore(c, caret); return c;
+  /* live SF clock */
+  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', second: '2-digit', weekday: 'short', hour12: false });
+  function tick() {
+    const p = Object.fromEntries(fmt.formatToParts(new Date()).map(x => [x.type, x.value]));
+    const h = +p.hour % 24, m = +p.minute, s = +p.second;
+    $('ch').style.transform = `rotate(${(h % 12) * 30 + m * .5}deg)`;
+    $('cm').style.transform = `rotate(${m * 6 + s * .1}deg)`;
+    $('cs').style.transform = `rotate(${s * 6}deg)`;
+    $('sftime').textContent = `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+    const weekend = p.weekday === 'Sat' || p.weekday === 'Sun';
+    $('sfmood').textContent =
+      h < 7 ? 'probably asleep 😴' :
+      h < 10 ? (weekend ? 'maybe on a soccer pitch ⚽' : 'coffee first ☕') :
+      h < 18 ? (weekend ? 'out climbing, maybe 🧗' : 'probably heads-down at work') :
+      h < 22 ? 'climbing or badminton, odds are 🏸' : 'winding down 🌙';
+  }
+  tick(); setInterval(tick, 1000);
+
+  if (reduce) return;
+
+  /* custom cursor */
+  if (fine) {
+    document.body.classList.add('has-cursor');
+    const cur = $('cur'), dot = $('curdot');
+    let x = -100, y = -100, cx = x, cy = y;
+    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; dot.style.transform = `translate(${x}px, ${y}px)`; }, { passive: true });
+    (function loop() { cx += (x - cx) * .18; cy += (y - cy) * .18; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a, button, .tile').forEach(el => {
+      el.addEventListener('pointerenter', () => cur.classList.add('big'));
+      el.addEventListener('pointerleave', () => cur.classList.remove('big'));
+    });
+  }
+
+  /* name letters thin out as the cursor passes over */
+  const name = $('name');
+  name.querySelectorAll('.mask > span').forEach(sp => {
+    [...sp.childNodes].forEach(n => {
+      if (n.nodeType !== 3) return;
+      const frag = document.createDocumentFragment();
+      [...n.textContent].forEach(c => { const l = document.createElement('span'); l.className = 'l'; l.textContent = c; frag.appendChild(l); });
+      sp.replaceChild(frag, n);
+    });
+  });
+  const letters = [...name.querySelectorAll('.l')];
+  if (fine) {
+    addEventListener('pointermove', e => {
+      if (scrollY > innerHeight) return;
+      letters.forEach(l => {
+        const r = l.getBoundingClientRect(), d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+        const k = Math.max(0, 1 - d / 320);
+        l.style.fontVariationSettings = `"wght" ${Math.round(800 - k * 680)}`;
       });
-      await sleep(420);
-      // target verifies left to right
-      let accepted = 0;
-      for (let i = 0; i < chips.length; i++) {
-        if (id !== run) return;
-        if (drafts[i].ok) { chips[i].classList.add('ok'); accepted++; await sleep(90); }
-        else { chips[i].classList.add('no'); await sleep(260); break; }
-      }
-      await sleep(160);
-      chips.forEach(c => c.classList.add('gone'));
-      await sleep(180);
-      chips.forEach(c => c.remove());
-      for (let i = 0; i < accepted; i++) commit(target[pos + i], 'fresh');
-      pos += accepted;
-      // bonus token from the target model
-      if (pos < target.length) { commit(target[pos], 'bonus'); pos++; }
-      stats();
-      await sleep(260);
-    }
+    }, { passive: true });
   }
-  document.getElementById('replay').addEventListener('click', generate);
-  const termIO = new IntersectionObserver(es => { if (es[0].isIntersecting) { generate(); termIO.disconnect(); } });
-  termIO.observe(out);
 
-  /* ---------- B200 SM grid ---------- */
-  const grid = document.getElementById('sms');
-  const N = 148, COLS = 12;
-  const sms = [];
-  for (let i = 0; i < N; i++) {
-    const d = document.createElement('div'); d.className = 'sm';
-    d.addEventListener('pointerenter', () => light(d, '#ffffff', 220));
-    grid.appendChild(d); sms.push(d);
+  /* photo parallax */
+  const photo = document.querySelector('.photo');
+  if (fine) addEventListener('pointermove', e => {
+    const dx = e.clientX / innerWidth - .5, dy = e.clientY / innerHeight - .5;
+    photo.style.transform = `translate(${dx * -22}px, ${dy * -16}px)`;
+  }, { passive: true });
+
+  /* work rows: floating card follows the cursor */
+  const himg = $('himg');
+  if (fine) document.querySelectorAll('.wrow').forEach(r => {
+    r.addEventListener('pointerenter', () => { himg.style.background = `linear-gradient(135deg, ${r.dataset.c1}, ${r.dataset.c2})`; himg.textContent = r.dataset.t; himg.classList.add('show'); });
+    r.addEventListener('pointerleave', () => himg.classList.remove('show'));
+    r.addEventListener('pointermove', e => { himg.style.left = e.clientX + 'px'; himg.style.top = e.clientY + 'px'; });
+  });
+
+  /* magnetic button */
+  const mg = $('magnet');
+  if (fine) {
+    mg.addEventListener('pointermove', e => {
+      const r = mg.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+      mg.style.transform = `translate(${dx * .35}px, ${dy * .35}px)`;
+      mg.firstElementChild.style.transform = `translate(${dx * .15}px, ${dy * .15}px)`;
+    });
+    mg.addEventListener('pointerleave', () => { mg.style.transform = ''; mg.firstElementChild.style.transform = ''; });
   }
-  function light(el, color, hold) {
-    el.classList.add('on');
-    el.style.background = color + 'cc';
-    el.style.borderColor = color;
-    el.style.boxShadow = `0 0 12px ${color}55`;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => {
-      el.classList.remove('on');
-      el.style.background = ''; el.style.borderColor = ''; el.style.boxShadow = '';
-    }, hold);
-  }
-  const KERNELS = [
-    { name: 'fused_sampling_kernel<topk=128>', color: '#a3ff6b', pattern: 'wave' },
-    { name: 'spec_verify_multistep', color: '#ffcf5a', pattern: 'rows' },
-    { name: 'mla_decode_fp8', color: '#7aa2ff', pattern: 'random' },
-    { name: 'fused_moe_gemm<nvfp4>', color: '#c792ff', pattern: 'diag' },
-    { name: 'rmsnorm_residual_fused', color: '#5ef2e2', pattern: 'wave' },
-    { name: 'allreduce_twoshot', color: '#ff8a65', pattern: 'rows' },
-  ];
-  const occ = document.getElementById('occ'), kname = document.getElementById('kname'), kbar = document.getElementById('kbar');
-  function order(pattern) {
-    const idx = [...Array(N).keys()];
-    if (pattern === 'random') return idx.sort(() => Math.random() - .5);
-    if (pattern === 'diag') return idx.sort((a, b) => (a % COLS + (a / COLS | 0)) - (b % COLS + (b / COLS | 0)));
-    if (pattern === 'rows') return idx;
-    return idx.sort((a, b) => (a % COLS) - (b % COLS) || a - b); // column wave
-  }
-  async function gpuLoop() {
-    if (reduce) { kname.textContent = 'animations off'; return; }
-    let k = 0;
-    await sleep(900);
-    for (;;) {
-      const K = KERNELS[k++ % KERNELS.length];
-      kname.textContent = K.name;
-      const ord = order(K.pattern);
-      const waves = 2 + (Math.random() * 2 | 0);
-      for (let w = 0; w < waves; w++) {
-        for (let i = 0; i < N; i++) {
-          if (i % 6 === 0) { await sleep(14); }
-          light(sms[ord[i]], K.color, 260 + Math.random() * 240);
-          const done = (w * N + i + 1) / (waves * N);
-          kbar.style.width = (done * 100).toFixed(1) + '%';
-          kbar.style.background = K.color;
-          occ.textContent = `${Math.min(N, i + 1)}/${N} CTAs · wave ${w + 1}/${waves}`;
-        }
-        await sleep(160);
-      }
-      occ.textContent = 'sync';
-      await sleep(550);
-    }
-  }
-  gpuLoop();
 })();
 </script>
 </body>
