@@ -142,7 +142,7 @@ redirect_from:
 <div class="goal" id="goal" aria-hidden="true">GOAL ⚽</div>
 <main>
   <header class="fade">
-    <img src="/images/profile-sm.jpg" alt="Shivam Sahni">
+    <img src="/images/profile-sm.jpg" alt="Shivam Sahni" title="Grand Canyon, squinting through sunglasses">
     <div>
       <h1>Shivam Sahni</h1>
       <p class="sub">San Francisco <span class="time" id="time"></span></p>
@@ -151,16 +151,16 @@ redirect_from:
 
   <section class="intro fade">
     <p>I'm a senior ML engineer at <a href="https://www.together.ai/" target="_blank" rel="noopener">Together AI</a>, where I work on making AI models respond faster and more cheaply.</p>
-    <p>I like problems where something is slow and nobody is quite sure why yet.</p>
+    <p>I'm happiest when something is slow and nobody knows why yet. Most of my job is finding out where the time went.</p>
   </section>
 
   <section class="fade">
     <h2>Path</h2>
     <ul class="tl">
-      <li><span class="when">now</span><span class="what"><b>Together AI</b>. LLM inference: speculative decoding and fast sampling.</span></li>
+      <li><span class="when">now</span><span class="what"><b>Together AI</b>. LLM inference: speculative decoding and fast sampling. Mostly making things wait less.</span></li>
       <li><span class="when">before</span><span class="what"><b>LinkedIn</b>. AI infrastructure, and co-authored Liger Kernel.</span></li>
-      <li><span class="when">2024</span><span class="what"><b>UC San Diego</b>. M.S. in Computer Science.</span></li>
-      <li><span class="when">2022</span><span class="what"><b>IIT Gandhinagar</b>. B.Tech in Computer Science and Engineering.</span></li>
+      <li><span class="when">2024</span><span class="what"><b>UC San Diego</b>. M.S. in Computer Science. Learned to love the sun.</span></li>
+      <li><span class="when">2022</span><span class="what"><b>IIT Gandhinagar</b>. B.Tech in CSE. Where I picked up most of my habits, good and bad.</span></li>
     </ul>
   </section>
 
@@ -204,11 +204,11 @@ redirect_from:
 
   <section class="fade">
     <h2>Otherwise</h2>
-    <p class="off">I play soccer and badminton, have recently gotten into climbing, and enjoy competitive programming (Candidate Master on <a href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener">Codeforces</a>).</p>
+    <p class="off">I play soccer and badminton, and recently started climbing, which so far mostly means falling. I also enjoy competitive programming (Candidate Master on <a href="https://codeforces.com/profile/let-me-handle" target="_blank" rel="noopener">Codeforces</a>). Ask me about the best burrito in SF.</p>
 
     <h2>Say hi</h2>
     <div class="links">
-      <button class="copy" id="copy-email" data-email="shivam15800@gmail.com">Email<span class="tip">copied shivam15800@gmail.com</span></button>
+      <button class="copy" id="copy-email" data-email="shivam15800@gmail.com">Email<span class="tip">copied. I usually reply fast.</span></button>
       <a href="https://github.com/shivam15s" target="_blank" rel="noopener">GitHub</a>
       <a href="https://scholar.google.com/citations?user=jX3NaFwAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a>
       <a href="/blog/">Blog</a>
@@ -216,7 +216,7 @@ redirect_from:
   </section>
 
   <footer>
-    <span>© 2026 Shivam Sahni</span>
+    <span>© 2026 Shivam Sahni · made in San Francisco, mostly after midnight</span>
     <button id="theme" aria-label="Toggle theme">◐</button>
   </footer>
 </main>
@@ -225,7 +225,11 @@ redirect_from:
 (() => {
   const el = document.getElementById('time');
   const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' });
-  const tick = () => { el.textContent = '· ' + fmt.format(new Date()).toLowerCase(); };
+  const hourFmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', hourCycle: 'h23' });
+  const tick = () => {
+    const now = new Date(), h = +hourFmt.format(now);
+    el.textContent = '· ' + fmt.format(now).toLowerCase() + (h < 5 ? ' (should probably be asleep)' : '');
+  };
   tick(); setInterval(tick, 30000);
 
   const cp = document.getElementById('copy-email');
